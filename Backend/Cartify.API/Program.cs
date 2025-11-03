@@ -15,6 +15,7 @@ using Cartify.Infrastructure.Implementation.Services;
 using Cartify.Infrastructure.Implementation.Services.Helper;
 using Cartify.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +26,7 @@ namespace Cartify.API
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +51,15 @@ namespace Cartify.API
                           .AllowCredentials();
                 });
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowGitHub",
+                    policy => policy.WithOrigins("https://a7med3yad.github.io")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
+            // ayad is here
+
 
             // 🧱 Database Context
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -173,19 +184,22 @@ namespace Cartify.API
                 });
             });
 
+
             // 🚀 Build app
             var app = builder.Build();
 
             // 🧩 Middleware
             if (app.Environment.IsDevelopment())
             {
-                app.UseCors("AllowFrontend");
+                app.UseCors("AllowGitHub");
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            
+
             app.UseHttpsRedirection();
-            app.UseCors("AllowFrontend");
+            app.UseCors("AllowGitHub");
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
