@@ -35,7 +35,7 @@ namespace Cartify.Infrastructure.Implementation.Services
                 Key = key,
                 InputStream = stream,
                 ContentType = file.ContentType,
-                CannedACL = S3CannedACL.PublicRead
+               // CannedACL = S3CannedACL.PublicRead
             };
 
             await _s3Client.PutObjectAsync(request);

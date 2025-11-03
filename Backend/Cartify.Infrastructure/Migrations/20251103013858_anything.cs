@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cartify.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class siuuu : Migration
+    public partial class anything : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "LkpMeasureUnites",
                 columns: table => new
                 {
-                    UnitOfMeasureId = table.Column<int>(type: "int", nullable: false),
+                    UnitOfMeasureId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -125,7 +126,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "LkpShipementMethods",
                 columns: table => new
                 {
-                    ShipementMethodId = table.Column<int>(type: "int", nullable: false),
+                    ShipementMethodId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: true),
@@ -146,7 +148,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblCategories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoryDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: true),
@@ -435,7 +438,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblInventory",
                 columns: table => new
                 {
-                    InventoryId = table.Column<int>(type: "int", nullable: false),
+                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductDetailId = table.Column<int>(type: "int", nullable: false),
                     QuantityAvailable = table.Column<int>(type: "int", nullable: false),
                     QuantityReserved = table.Column<int>(type: "int", nullable: false),
@@ -530,7 +534,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblProducts",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     UserStoreId = table.Column<int>(type: "int", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -665,7 +670,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblRefunds",
                 columns: table => new
                 {
-                    RefundId = table.Column<int>(type: "int", nullable: false),
+                    RefundId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDetailId = table.Column<int>(type: "int", nullable: false),
                     RefundStatues = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     RefundAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

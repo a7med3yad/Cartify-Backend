@@ -60,9 +60,9 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
 
         modelBuilder.Entity<LkpMeasureUnite>(entity =>
         {
+            
             entity.HasKey(e => e.UnitOfMeasureId).HasName("PK_LkpUnitOfMeasures");
-
-            entity.Property(e => e.UnitOfMeasureId).ValueGeneratedNever();
+            entity.Property(e => e.UnitOfMeasureId).ValueGeneratedOnAdd();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -74,6 +74,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<LkpOrderStatue>(entity =>
         {
             entity.HasKey(e => e.OrderStatuesId);
+            entity.Property(e => e.OrderStatuesId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
@@ -87,6 +88,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<LkpPaymentType>(entity =>
         {
             entity.HasKey(e => e.PaymentId).HasName("PK_TblPayment");
+            entity.Property(e => e.PaymentId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
@@ -100,6 +102,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<LkpProductDetailsAttribute>(entity =>
         {
             entity.HasKey(e => e.ProductDetailAttributeId);
+            entity.Property(e => e.ProductDetailAttributeId).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Attribute).WithMany(p => p.LkpProductDetailsAttributes)
                 .HasForeignKey(d => d.AttributeId)
@@ -119,6 +122,8 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<LkpPromotion>(entity =>
         {
             entity.HasKey(e => e.PromotionId);
+            entity.Property(e => e.PromotionId).ValueGeneratedOnAdd();
+
             entity.Property(e => e.DeletedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -139,8 +144,8 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<LkpShipementMethod>(entity =>
         {
             entity.HasKey(e => e.ShipementMethodId);
+            entity.Property(e => e.ShipementMethodId).ValueGeneratedOnAdd();
 
-            entity.Property(e => e.ShipementMethodId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -165,6 +170,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblAddress>(entity =>
         {
             entity.HasKey(e => e.AddressId).HasName("PK_TblAdresses_1");
+            entity.Property(e => e.AddressId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.UserId, "IX_TblAddresses_UserId");
 
@@ -184,7 +190,8 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         {
             entity.HasKey(e => e.CategoryId);
 
-            entity.Property(e => e.CategoryId).ValueGeneratedNever();
+            entity.Property(e => e.CategoryId).ValueGeneratedOnAdd();
+
             entity.Property(e => e.CategoryDescription).IsRequired();
             entity.Property(e => e.CategoryName)
                 .IsRequired()
@@ -198,13 +205,14 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblInventory>(entity =>
         {
             entity.HasKey(e => e.InventoryId);
+            entity.Property(e => e.InventoryId).ValueGeneratedOnAdd();
+
 
             entity.ToTable("TblInventory");
 
             entity.HasIndex(e => e.ProductDetailId, "IX_TblInventory_ProductDetailId")
                 .IsUnique();
 
-            entity.Property(e => e.InventoryId).ValueGeneratedNever();
 
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
@@ -224,6 +232,8 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblOrder>(entity =>
         {
             entity.HasKey(e => e.OrderId);
+            entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
+
             entity.HasIndex(e => e.StoreId, "IX_TblOrders_UserStoreId");
 
             entity.HasOne(d => d.UserStore)
@@ -272,6 +282,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblOrderDetail>(entity =>
         {
             entity.HasKey(e => e.OrderDetailId);
+            entity.Property(e => e.OrderDetailId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.OrderId, "IX_TblOrderDetails_OrderId");
 
@@ -301,12 +312,12 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblProduct>(entity =>
         {
             entity.HasKey(e => e.ProductId);
+            entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.TypeId, "IX_TblProducts_TypeId");
 
             entity.HasIndex(e => e.UserStoreId, "IX_TblProducts_UserStoreId");
 
-            entity.Property(e => e.ProductId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasAnnotation("Relational:DefaultConstraintName", "DF__TblProduc__Creat__18EBB532")
@@ -331,6 +342,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblProductDetail>(entity =>
         {
             entity.HasKey(e => e.ProductDetailId);
+            entity.Property(e => e.ProductDetailId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.ProductDetailId).ValueGeneratedNever();
             entity.Property(e => e.Description).HasMaxLength(255);
@@ -364,10 +376,10 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblRefund>(entity =>
         {
             entity.HasKey(e => e.RefundId);
+            entity.Property(e => e.RefundId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.OrderDetailId, "IX_TblRefunds_OrderDetailId");
 
-            entity.Property(e => e.RefundId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -387,6 +399,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblReview>(entity =>
         {
             entity.HasKey(e => e.ReviewId);
+            entity.Property(e => e.ReviewId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.OrderDetailsId, "IX_TblReviews_OrderDetailsId");
 
@@ -405,6 +418,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<TblType>(entity =>
         {
             entity.HasKey(e => e.TypeId);
+            entity.Property(e => e.TypeId).ValueGeneratedOnAdd();
 
             entity.HasIndex(e => e.CategoryId, "IX_TblTypes_CategoryId");
 
@@ -453,6 +467,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
         modelBuilder.Entity<lkpAttribute>(entity =>
         {
             entity.HasKey(e => e.AttributeId);
+            entity.Property(e => e.AttributeId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.AttributeId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
