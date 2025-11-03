@@ -7,6 +7,7 @@ using Cartify.Domain.Interfaces.Repositories;
 using Cartify.Domain.Models;
 using Cartify.Infrastructure.Implementation.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -205,6 +206,53 @@ namespace Cartify.Application.Services.Implementation.Merchant
 
             return new PagedResult<ProductDto>(paged, total, page, pageSize);
         }
+        // =========================================================
+        // 🔹 GET All SUBCATEGORY
+        // =========================================================
+        public async Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync()
+        {
+            var subCategories = await _unitOfWork.SubCategoryRepository
+                .GetAllIncluding2(s => s.Category)
+                .Where(s => !s.IsDeleted)
+                .ToListAsync();
+
+            var result = subCategories.Select(s => new SubCategoryDto
+            {
+                SubCategoryId = s.TypeId,
+                SubCategoryName = s.TypeName,
+                SubCategoryDescription = s.TypeDescription,
+                ImageUrl = s.ImageUrl,
+                CategoryId = s.CategoryId,
+                CategoryName = s.Category?.CategoryName ?? "",
+                CreatedDate = s.CreatedDate,
+            });
+
+            return result;
+        }
+
+        // =========================================================
+        // 🔹 GET SUBCATEGORY BY ID
+        // =========================================================
+        public async Task<SubCategoryDto?> GetSubCategoryByIdAsync(int id)
+        {
+            var s = await _unitOfWork.SubCategoryRepository
+                .GetAllIncluding2(x => x.Category)
+                .FirstOrDefaultAsync(x => x.TypeId == id && !x.IsDeleted);
+
+            if (s == null) return null;
+
+            return new SubCategoryDto
+            {
+                SubCategoryId = s.TypeId,
+                SubCategoryName = s.TypeName,
+                SubCategoryDescription = s.TypeDescription,
+                ImageUrl = s.ImageUrl,
+                CategoryId = s.CategoryId,
+                CategoryName = s.Category?.CategoryName ?? "",
+                CreatedDate = s.CreatedDate
+            };
+        }
+
 
         // =========================================================
         // 🔹 GET PRODUCTS BY SUBCATEGORY
@@ -242,5 +290,101 @@ namespace Cartify.Application.Services.Implementation.Merchant
 
             return new PagedResult<ProductDto>(paged, total, page, pageSize);
         }
+        // =========================================================
+        // 🔹 CREATE SUB CATEGORY
+        // =========================================================
+        public async Task<bool> CreateSubCategoryAsync(CreateSubCategoryDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.SubCategoryName))
+                throw new ArgumentException("Subcategory name is required.");
+
+            var parentCategory = await _unitOfWork.CategoryRepository.ReadByIdAsync(dto.CategoryId);
+            if (parentCategory == null || parentCategory.IsDeleted)
+                throw new KeyNotFoundException("Parent category not found.");
+
+            var existingSub = await _unitOfWork.SubCategoryRepository
+                .GetAllIncluding2()
+                .FirstOrDefaultAsync(s => s.TypeName == dto.SubCategoryName && !s.IsDeleted);
+
+            if (existingSub != null)
+                throw new InvalidOperationException("Subcategory already exists.");
+
+            var merchantIdStr = _getUserServices.GetMerchantIdFromToken();
+            int.TryParse(merchantIdStr, out int merchantId);
+            var merchantName = _getUserServices.GetUserNameFromToken() ?? "merchant";
+
+            string? imageUrl = null;
+            if (dto.Image != null)
+                imageUrl = await _fileStorageService.UploadFileAsync(dto.Image, $"subcategories/{merchantName}");
+
+            var subCategory = new TblType
+            {
+                TypeName = dto.SubCategoryName.Trim(),
+                TypeDescription = dto.SubCategoryDescription?.Trim(),
+                ImageUrl = imageUrl,
+                CategoryId = dto.CategoryId,
+                CreatedBy = merchantId,
+                CreatedDate = DateTime.UtcNow,
+                IsDeleted = false
+            };
+
+            await _unitOfWork.SubCategoryRepository.CreateAsync(subCategory);
+            return await _unitOfWork.SaveChanges() > 0;
+        }
+
+        // =========================================================
+        // 🔹 UPDATE SUB CATEGORY
+        // =========================================================
+        public async Task<bool> UpdateSubCategoryAsync(int subCategoryId, CreateSubCategoryDto dto)
+        {
+            var subCategory = await _unitOfWork.SubCategoryRepository.ReadByIdAsync(subCategoryId);
+            if (subCategory == null || subCategory.IsDeleted)
+                throw new KeyNotFoundException("Subcategory not found.");
+
+            if (!string.IsNullOrWhiteSpace(dto.SubCategoryName))
+                subCategory.TypeName = dto.SubCategoryName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.SubCategoryDescription))
+                subCategory.TypeDescription = dto.SubCategoryDescription.Trim();
+
+            if (dto.CategoryId != 0 && dto.CategoryId != subCategory.CategoryId)
+            {
+                var parentCategory = await _unitOfWork.CategoryRepository.ReadByIdAsync(dto.CategoryId);
+                if (parentCategory == null || parentCategory.IsDeleted)
+                    throw new KeyNotFoundException("Parent category not found.");
+                subCategory.CategoryId = dto.CategoryId;
+            }
+
+            if (dto.Image != null)
+            {
+                var merchantName = _getUserServices.GetUserNameFromToken() ?? "merchant";
+                var newUrl = await _fileStorageService.UploadFileAsync(dto.Image, $"subcategories/{merchantName}");
+                subCategory.ImageUrl = newUrl;
+            }
+
+            subCategory.UpdatedBy = int.TryParse(_getUserServices.GetMerchantIdFromToken(), out var id) ? id : 0;
+            _unitOfWork.SubCategoryRepository.Update(subCategory);
+            return await _unitOfWork.SaveChanges() > 0;
+        }
+
+
+        // =========================================================
+        // 🔹 DELETE SUB CATEGORY
+        // =========================================================
+        public async Task<bool> DeleteSubCategoryAsync(int subCategoryId)
+        {
+            var subCategory = await _unitOfWork.SubCategoryRepository.ReadByIdAsync(subCategoryId);
+            if (subCategory == null || subCategory.IsDeleted)
+                throw new KeyNotFoundException("Subcategory not found or already deleted.");
+
+            subCategory.IsDeleted = true;
+            subCategory.DeletedDate = DateTime.UtcNow;
+            subCategory.DeletedBy = int.TryParse(_getUserServices.GetMerchantIdFromToken(), out var id) ? id : 0;
+
+            _unitOfWork.SubCategoryRepository.Update(subCategory);
+            return await _unitOfWork.SaveChanges() > 0;
+        }
+
+
     }
 }

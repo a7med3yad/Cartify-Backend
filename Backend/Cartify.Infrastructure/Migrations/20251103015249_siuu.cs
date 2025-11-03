@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cartify.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class anything : Migration
+    public partial class siuu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

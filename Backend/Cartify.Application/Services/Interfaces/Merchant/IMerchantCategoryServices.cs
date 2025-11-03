@@ -18,5 +18,10 @@ namespace Cartify.Application.Services.Interfaces.Merchant
         Task<int> GetProductCountByCategoryIdAsync(int categoryId);
         Task<PagedResult<ProductDto>> GetProductsByCategoryIdAsync(int categoryId, int page = 1, int pageSize = 10);
         Task<PagedResult<ProductDto>> GetProductsBySubCategoryIdAsync(int subCategoryId, int page = 1, int pageSize = 10);
+        Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync();
+        Task<SubCategoryDto?> GetSubCategoryByIdAsync(int id);
+        Task<bool> CreateSubCategoryAsync(CreateSubCategoryDto dto);
+        Task<bool> UpdateSubCategoryAsync(int subCategoryId, CreateSubCategoryDto dto);
+        Task<bool> DeleteSubCategoryAsync(int subCategoryId);
     }
 }
