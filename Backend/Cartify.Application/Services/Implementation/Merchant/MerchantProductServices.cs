@@ -43,9 +43,10 @@ namespace Cartify.Application.Services.Implementation.Merchant
                 return false;
 
             // استرجع الـ Store بناءً على الـ merchantId
-            var storeid = _getUserServices.GetMerchantIdFromToken();
+            var store = await _unitOfWork.UserStorerepository.Search(
+                s => s.MerchantId == merchantId && !s.IsDeleted);
 
-            if (storeid == null)
+            if (store == null)
                 return false;
 
             var product = new TblProduct
@@ -53,7 +54,7 @@ namespace Cartify.Application.Services.Implementation.Merchant
                 ProductName = dto.ProductName,
                 ProductDescription = dto.ProductDescription,
                 TypeId = dto.TypeId,
-                UserStoreId = int.Parse(storeid)
+                UserStoreId = store.UserStoreId
             };
 
             await _unitOfWork.ProductRepository.CreateAsync(product);
@@ -140,7 +141,7 @@ namespace Cartify.Application.Services.Implementation.Merchant
 
             product.TblProductImages ??= new List<TblProductImage>();
             var username = _getUserServices.GetUserNameFromToken() ?? "product";
-            var merchantId = int.Parse(_getUserServices.GetMerchantIdFromToken() ?? "0");
+            var merchantId = int.TryParse(_getUserServices.GetMerchantIdFromToken(), out var id) ? id : 0;
 
             foreach (var image in images)
             {
@@ -214,6 +215,7 @@ namespace Cartify.Application.Services.Implementation.Merchant
                 ProductDescription = p.ProductDescription,
                 TypeName = p.Type?.TypeName ?? "",
                 CategoryName = p.Type?.Category?.CategoryName ?? "",
+                StoreId = p.UserStoreId,
                 ImageUrl = p.TblProductImages?.FirstOrDefault()?.ImageURL
             }).ToList();
 
@@ -410,7 +412,7 @@ namespace Cartify.Application.Services.Implementation.Merchant
 
             productDetail.IsDeleted = true;
             productDetail.DeletedDate = DateTime.Now;
-            productDetail.DeletedBy = int.Parse(_getUserServices.GetMerchantIdFromToken() ?? "0");
+            productDetail.DeletedBy = int.TryParse(_getUserServices.GetMerchantIdFromToken(), out var merchantId) ? merchantId : 0;
 
             _unitOfWork.ProductDetailsRepository.Update(productDetail);
             return await _unitOfWork.SaveChanges() > 0;
