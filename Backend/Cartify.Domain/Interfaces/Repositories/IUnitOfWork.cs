@@ -22,6 +22,8 @@ public interface IUnitOfWork : IDisposable
     public IRepository<LkpMeasureUnite> MeasureUnitRepository { get; }
     public ICheckoutRepository CheckoutRepository { get; }
     public IOrdertrackingRepository OrdertrackingRepository { get; }
-    Task<int> SaveChanges();
+	public IRepository<Ticket> TicketRepository {  get; }
+
+	Task<int> SaveChanges();
 
 }

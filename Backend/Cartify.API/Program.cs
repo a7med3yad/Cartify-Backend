@@ -108,6 +108,8 @@ namespace Cartify.API
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ICreateMerchantProfile, CreateMerchantProfile>();
             builder.Services.AddScoped<GetUserServices>();
+			builder.Services.AddScoped<ISubmitTicket,SubmitTicket>();
+
 
             // 👤 Profile Services
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
