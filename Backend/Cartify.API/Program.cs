@@ -203,11 +203,17 @@ namespace Cartify.API
             if (app.Environment.IsDevelopment())
             {
                 app.UseCors("AllowGitHub");
-                app.UseSwagger();
-                app.UseSwaggerUI();
             }
 
-            
+            // ✅ Enable Swagger in all environments (Development & Production)
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cartify API v1");
+                c.RoutePrefix = "swagger"; // Swagger will be available at /swagger
+                c.DocumentTitle = "Cartify API Documentation";
+                c.DefaultModelsExpandDepth(-1); // Hide models section by default
+            });
 
             app.UseHttpsRedirection();
             app.UseCors("AllowGitHub");
