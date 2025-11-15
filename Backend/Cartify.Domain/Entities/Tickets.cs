@@ -8,6 +8,7 @@
 	}
 	public enum IssueCategory
 	{
+		OrderIssue,
 		ShippingAndDelivery,
 		ReturnsAndRefunds,
 		ProductQuestions,
