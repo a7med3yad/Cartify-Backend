@@ -34,4 +34,6 @@ public partial class TblUser : IdentityUser
     public virtual ICollection<TblUserStore> StoresPurchasedFrom { get; set; } = new List<TblUserStore>();
     public List<RefreshToken>? RefreshTokens { get; set; }
 	public List<PasswordResetCode>? PasswordResetCodes { get; set; } = new List<PasswordResetCode>();
+	public List<Ticket>? Tickets { get; set; }= new List<Ticket>();
+
 }

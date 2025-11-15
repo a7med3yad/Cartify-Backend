@@ -43,29 +43,25 @@ namespace Cartify.API
             // 🧾 Controllers
             builder.Services.AddControllers();
 
-            // 🌐 CORS Policy
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowFrontend", policy =>
-                {
-                    policy.WithOrigins("http://127.0.0.1:5500")
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials();
-                });
-            });
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowGitHub",
-                    policy => policy.WithOrigins("https://a7med3yad.github.io")
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
-            });
-            // ayad is here
+			// 🌐 CORS Policy
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowOrigins", policy =>
+				{
+					policy.WithOrigins(
+							"http://127.0.0.1:5500",
+							"https://a7med3yad.github.io")
+						  .AllowAnyMethod()
+						  .AllowAnyHeader()
+						  .AllowCredentials();
+				});
+			});
+
+			// ayad is here
 
 
-            // 🧱 Database Context
-            builder.Services.AddDbContext<AppDbContext>(options =>
+			// 🧱 Database Context
+			builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // 👤 Identity Configuration
@@ -108,6 +104,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ICreateMerchantProfile, CreateMerchantProfile>();
             builder.Services.AddScoped<GetUserServices>();
+			builder.Services.AddScoped<ISubmitTicket,SubmitTicket>();
 
             // 👤 Profile Services
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -216,8 +213,8 @@ namespace Cartify.API
             });
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowGitHub");
-            app.UseAuthentication();
+			app.UseCors("AllowOrigins");
+			app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
 

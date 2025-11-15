@@ -45,7 +45,9 @@ namespace Cartify.Infrastructure.Implementation.Services
 
         public IOrdertrackingRepository OrdertrackingRepository { get; }
 
-        public UnitOfWork(
+		public IRepository<Ticket> TicketRepository { get; }
+
+		public UnitOfWork(
 			AppDbContext context,
             IRepository<LkpOrderStatue> OrderStatusRepository,
             IRepository<PasswordResetCode> passwordResetCodess,
@@ -64,9 +66,10 @@ namespace Cartify.Infrastructure.Implementation.Services
 			IRepository<lkpAttribute> attributeRepository,
 			IRepository<LkpMeasureUnite> measureUnitRepository,
 			ICheckoutRepository checkoutRepository,
-			IOrdertrackingRepository ordertrackingRepository
+			IOrdertrackingRepository ordertrackingRepository,
+			IRepository<Ticket> TicketRepository
 
-            )
+			)
 		{
 			_context = context;
 			this.PasswordResetCodess = passwordResetCodess;
@@ -87,6 +90,7 @@ namespace Cartify.Infrastructure.Implementation.Services
 			this.OrderStatusRepository = OrderStatusRepository;
 			this.CheckoutRepository = checkoutRepository;
 			this.OrdertrackingRepository = ordertrackingRepository;
+			this.TicketRepository=TicketRepository;
 
         }
 

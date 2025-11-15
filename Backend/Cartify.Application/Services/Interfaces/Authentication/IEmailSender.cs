@@ -9,5 +9,7 @@ namespace Cartify.Application.Services.Interfaces.Authentication
 	public interface IEmailSender
 	{
 		void SendEmail(string senderName,string senderEmail,string toName,string toEmail,string subject ,string textContext);
+		void SendEmailPlain(string senderName, string senderEmail, string toName, string toEmail, string subject, string textContext);
+
 	}
 }
