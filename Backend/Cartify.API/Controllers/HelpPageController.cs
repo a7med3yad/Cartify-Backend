@@ -23,8 +23,8 @@ namespace Cartify.API.Controllers
 			_submitTicket = submitTicket;
 			_mapper = mapper;
 		}
-		[HttpPost]
-		public async Task<IActionResult> SubmitTicket([FromBody] DtoSubmitTicket dto)
+        [HttpPost("SubmitTicket")]
+        public async Task<IActionResult> SubmitTicket([FromBody] DtoSubmitTicket dto)
 		{
 			SendTicketDto dto2=new SendTicketDto { Email = dto.Email,IssueCategory=dto.IssueCategory,Message=dto.Message,Name=dto.Name,Subject=dto.Subject };
 			var a=await _submitTicket.SendTicket(dto2);
