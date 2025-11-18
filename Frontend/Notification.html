@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications</title>
+  <link rel="stylesheet" href="CSS/Notification.css">
+  <link rel="stylesheet" href="CSS/navigation.css">
+  <link rel="icon" href="Icons/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+  <!-- Single Header -->
+  <header class="header">
+    <div class="PageIcon">
+      <a href="index.html"><img src="Icons/Untitled-ن2.png" alt="Logo"></a>
+    </div>
+
+    <div class="Login">
+      <div class="actions">
+        <button id="markAllRead" class="btn btn-primary">Mark All as Read</button>
+        <button id="clearAll" class="btn btn-danger">Clear All</button>
+      </div>
+    </div>
+
+    <div class="middle">
+      <form class="d-flex search-form" role="search" style="width: 100%; max-width: 400px;">
+        <input type="text" name="search" id="searchBar" placeholder="Search..." aria-label="Search">
+        <button class="btn gradient-btn" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="Login">
+      <button type="button" class="menu-toggle-btn" id="menuToggle" aria-label="Open navigation menu">
+        <span class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Notifications</h1>
+    <div id="notificationsContainer" class="notifications-container">
+      <!-- Notifications will render here -->
+    </div>
+
+    <div id="emptyState" class="empty-state">
+      🎉 You're all caught up! No new notifications.
+    </div>
+  </main>
+
+  <!-- Navigation Menu -->
+  <section class="navigation-section">
+    <div class="container">
+      <div class="nav-menu" id="navMenu">
+        <div class="nav-menu-header">
+          <h3>All Pages</h3>
+          <button class="menu-close-btn" id="menuClose" aria-label="Close menu">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="nav-menu-content">
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">User Pages</h4>
+            <div class="nav-buttons">
+              <a href="login.html" class="nav-btn">Login</a>
+              <a href="register.html" class="nav-btn">Register</a>
+              <a href="profile.html" class="nav-btn">Profile</a>
+            </div>
+          </div>
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Shopping</h4>
+            <div class="nav-buttons">
+              <a href="Products.html" class="nav-btn">Products</a>
+              <a href="ProductsDetails.html" class="nav-btn">Product Details</a>
+              <a href="Category.html" class="nav-btn">Categories</a>
+              <a href="Sub-Category.html" class="nav-btn">Sub Categories</a>
+            </div>
+          </div>
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Cart & Orders</h4>
+            <div class="nav-buttons">
+              <a href="cartpage.html" class="nav-btn">Cart</a>
+              <a href="Checkout.html" class="nav-btn">Checkout</a>
+              <a href="ordertracking.html" class="nav-btn">Order Tracking</a>
+            </div>
+          </div>
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Account</h4>
+            <div class="nav-buttons">
+              <a href="wishlist.html" class="nav-btn">Wishlist</a>
+              <a href="Notification.html" class="nav-btn">Notifications</a>
+            </div>
+          </div>
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Support</h4>
+            <div class="nav-buttons">
+              <a href="help_page.html" class="nav-btn">Help & Support</a>
+            </div>
+          </div>
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Merchant</h4>
+            <div class="nav-buttons">
+              <a href="merchant-signup.html" class="nav-btn">Merchant Signup</a>
+              <a href="merchhome.html" class="nav-btn">Merchant Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <script src="JS/Notification.js"></script>
+  <script src="JS/menu.js"></script>
+</body>
+</html>

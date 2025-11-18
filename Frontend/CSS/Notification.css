@@ -1,0 +1,224 @@
+/* Import Unified Color Palette */
+@import url('colors.css');
+/* Import Unified Header Styles */
+@import url('header.css');
+/* Import Unified Button Styles */
+@import url('buttons.css');
+body {
+  margin: 0;
+  background: var(--bgGradient);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  padding: 120px 40px 60px;
+}
+
+/* Header is already fixed in header.css */
+header.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--greenDark);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.notifications-container {
+  display: grid;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.notification-item {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-size: 16px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  font-size: 18px;
+  color: #666;
+}
+
+/* Header styles are in header.css */
+
+/* Notifications buttons in header - moved to left */
+header.header .Login {
+  margin-right: 30px;
+  margin-left: 20px;
+}
+
+header.header .Login .actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+header.header .Login .actions button {
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header.header .Login .actions button.btn-primary {
+  background: linear-gradient(135deg, var(--greenNormal), var(--greenDark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+header.header .Login .actions button.btn-primary:hover {
+  filter: brightness(115%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.4);
+}
+
+header.header .Login .actions button.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
+}
+
+header.header .Login .actions button.btn-danger {
+  background: linear-gradient(135deg, var(--redNormal), var(--redDark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+header.header .Login .actions button.btn-danger:hover {
+  filter: brightness(110%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.4);
+}
+
+header.header .Login .actions button.btn-danger:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+}
+
+/* ===== Notifications List ===== */
+.notifications-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.notification.unread {
+  background: #e8f5e8;
+  border-left: 4px solid var(--greenNormal);
+}
+
+.notification img {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.notification-content {
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.notification-time {
+  font-size: 14px;
+  color: var(--textMuted);
+  margin-top: 5px;
+}
+
+.notification button {
+  margin-left: 15px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.notification .mark-read,
+.notification button.btn-secondary {
+  background: var(--greenLight);
+  color: var(--greenDarker);
+  border: 2px solid var(--greenLightActive);
+}
+
+.notification .mark-read:hover,
+.notification button.btn-secondary:hover {
+  background: var(--greenLightHover);
+  border-color: var(--greenNormal);
+}
+
+.notification button.btn-danger,
+.notification .delete-btn {
+  background: var(--redNormal);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.25);
+}
+
+.notification button.btn-danger:hover,
+.notification .delete-btn:hover {
+  background: var(--redHover);
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.35);
+}
+
+/* ===== Empty state ===== */
+.empty-state {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.2rem;
+  color: var(--textMuted);
+  display: none;
+}
