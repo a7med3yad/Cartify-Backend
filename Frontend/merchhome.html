@@ -26,45 +26,167 @@
 
 <body>
     <!-- ================= HEADER ================= -->
-    <header class="header">
-      <!-- Logo -->
-      <div class="PageIcon">
-        <a href="#">
-          <img src="Icons/Untitled-ن2.png" alt="Cartify">
-        </a>
-      </div>
+<!-- ================= PROFESSIONAL HEADER ================= -->
+<header class="header">
+  <!-- Logo Section -->
+  <div class="PageIcon">
+    <a href="#">
+      <img src="Icons/Untitled-ن2.png" alt="Cartify Logo">
+    </a>
+  </div>
 
-      <!-- Right side - User Menu -->
-      <div class="Login">
-        <div class="btn-group" id="drop">
-          <a href="#" class="btn-img img dropdown-toggle rounded-circle" data-bs-toggle="dropdown"
-             aria-expanded="false" aria-label="User menu" title="User menu"
-             style="background-image: url('images/user.png'); width:50px; height:50px; background-size: cover; background-position: center;">
-          </a>
-          <div class="dropdown-menu dropdown-menu-end me-3">
-            <a class="dropdown-item d-flex align-items-center" id="switchRole" href="#">
-              <div class="icon d-flex align-items-center justify-content-center me-3">
-                <span class="ion-ios-sync"></span>
-              </div>
-              <span class="switch-role-label">Switch Role</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <div class="icon d-flex align-items-center justify-content-center me-3">
-                <span class="ion-ios-settings"></span>
-              </div>
-              Settings
-            </a>
-            <a class="dropdown-item d-flex align-items-center" id="logout1" href="#">
-              <div class="icon d-flex align-items-center justify-content-center me-3">
-                <span class="ion-ios-power"></span>
-              </div>
-              Log Out
-            </a>
+  <!-- Center - Current Role Display (Optional) -->
+  <div class="current-role-display">
+    <i class="bi bi-person-badge"></i>
+    <span id="currentRoleText">Merchant</span>
+  </div>
+
+  <!-- Right Side - User Menu -->
+  <div class="Login">
+    <div class="btn-group" id="drop">
+      <!-- User Avatar -->
+      <a href="#" 
+         class="btn-img dropdown-toggle" 
+         data-bs-toggle="dropdown"
+         aria-expanded="false" 
+         aria-label="User menu" 
+         title="User menu"
+         style="background-image: url('images/user.png');">
+      </a>
+
+      <!-- Dropdown Menu -->
+      <div class="dropdown-menu dropdown-menu-end">
+        
+        <!-- User Info Header -->
+        <div class="px-3 py-2 border-bottom">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-person-circle text-success" style="font-size: 1.25rem;"></i>
+            <div>
+              <div class="fw-bold" style="font-size: 0.95rem;">Ahmed Ayad</div>
+              <div class="text-muted" style="font-size: 0.75rem;">ahmed@example.com</div>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
 
+        <!-- Current Role Display -->
+        <div class="dropdown-item disabled d-flex align-items-center justify-content-between">
+          <span class="text-muted" style="font-size: 0.85rem;">Current Role:</span>
+          <span class="role-badge merchant" id="currentRoleBadge">Merchant</span>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <!-- Switch Role -->
+        <a class="dropdown-item role-switch" id="switchRole" href="#">
+          <div class="icon">
+            <i class="bi bi-arrow-left-right"></i>
+          </div>
+          <span>Switch Role</span>
+        </a>
+
+        <!-- Profile -->
+        <a class="dropdown-item" href="#" data-target="Profile">
+          <div class="icon">
+            <i class="bi bi-person"></i>
+          </div>
+          <span>My Profile</span>
+        </a>
+
+        <!-- Settings -->
+        <a class="dropdown-item" href="#">
+          <div class="icon">
+            <i class="bi bi-gear"></i>
+          </div>
+          <span>Settings</span>
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <!-- Logout -->
+        <a class="dropdown-item text-danger" id="logout1" href="#">
+          <div class="icon text-danger">
+            <i class="bi bi-box-arrow-right"></i>
+          </div>
+          <span>Log Out</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ROLE SWITCH MODAL ================= -->
+<div class="modal fade" id="roleSwitchModal" tabindex="-1" aria-labelledby="roleSwitchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="roleSwitchModalLabel">
+          <i class="bi bi-arrow-left-right me-2"></i>Switch Your Role
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <p class="text-muted mb-4">Select the role you want to switch to:</p>
+        
+        <!-- Role Options -->
+        <div class="list-group">
+          
+          <!-- Merchant Role -->
+          <a href="#" class="list-group-item list-group-item-action role-option" data-role="merchant">
+            <div class="d-flex align-items-center">
+              <div class="icon me-3" style="font-size: 2rem; color: #3b82f6;">
+                <i class="bi bi-shop"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="mb-1">Merchant Dashboard</h6>
+                <small class="text-muted">Manage your store, products, and orders</small>
+              </div>
+              <span class="role-badge merchant">Merchant</span>
+            </div>
+          </a>
+
+          <!-- Admin Role -->
+          <a href="#" class="list-group-item list-group-item-action role-option" data-role="admin">
+            <div class="d-flex align-items-center">
+              <div class="icon me-3" style="font-size: 2rem; color: #ef4444;">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="mb-1">Admin Panel</h6>
+                <small class="text-muted">Full platform control and analytics</small>
+              </div>
+              <span class="role-badge admin">Admin</span>
+            </div>
+          </a>
+
+          <!-- Customer Role -->
+          <a href="#" class="list-group-item list-group-item-action role-option" data-role="customer">
+            <div class="d-flex align-items-center">
+              <div class="icon me-3" style="font-size: 2rem; color: #10b981;">
+                <i class="bi bi-cart"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="mb-1">Customer View</h6>
+                <small class="text-muted">Browse and shop products</small>
+              </div>
+              <span class="role-badge customer">Customer</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
     <div class="container-fluid">
