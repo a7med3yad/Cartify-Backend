@@ -29,7 +29,6 @@ public partial class TblProductDetail
     public DateTime? DeletedDate { get; set; }
 
     public virtual ICollection<LkpProductDetailsAttribute> LkpProductDetailsAttributes { get; set; } = new List<LkpProductDetailsAttribute>();
-    public virtual ICollection<LkpPromotion> Promotions { get; set; } = new List<LkpPromotion>();
 
     public virtual TblProduct Product { get; set; }
 

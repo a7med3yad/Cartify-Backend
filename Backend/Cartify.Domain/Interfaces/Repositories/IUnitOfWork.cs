@@ -17,7 +17,6 @@ public interface IUnitOfWork : IDisposable
     public IRepository<TblProductImage> ImagesRepository { get; }
     public IRepository<TblProductDetail> ProductDetailsRepository { get; }
     public IRepository<TblReview> ReviewRepository { get; }
-    public IRepository<LkpPromotion> PromotionsRepository { get; }
     public IRepository<lkpAttribute> AttributeRepository { get; }
     public IRepository<LkpMeasureUnite> MeasureUnitRepository { get; }
     public ICheckoutRepository CheckoutRepository { get; }
