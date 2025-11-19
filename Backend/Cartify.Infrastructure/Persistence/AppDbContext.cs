@@ -409,7 +409,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
 
             entity.HasIndex(e => e.CategoryId, "IX_TblTypes_CategoryId");
 
-            entity.Property(e => e.TypeId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");

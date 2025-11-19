@@ -3,6 +3,7 @@ using Cartify.Application.Services.Interfaces.Merchant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cartify.API.Controllers.MerchantControllers
 {
@@ -19,7 +20,7 @@ namespace Cartify.API.Controllers.MerchantControllers
         }
 
         // =========================================================
-        // 🔹 CREATE PROMOTION
+        // 🔹 CREATE PROMOTION → POST /api/merchant/promotions
         // =========================================================
         [HttpPost]
         public async Task<IActionResult> AddPromotion([FromBody] CreatePromotionDto dto)
@@ -41,7 +42,7 @@ namespace Cartify.API.Controllers.MerchantControllers
         }
 
         // =========================================================
-        // 🔹 UPDATE PROMOTION
+        // 🔹 UPDATE PROMOTION → PUT /api/merchant/promotions/{promotionId}
         // =========================================================
         [HttpPut("{promotionId:int}")]
         public async Task<IActionResult> UpdatePromotion(
@@ -57,8 +58,11 @@ namespace Cartify.API.Controllers.MerchantControllers
             if (dto.StartDate.HasValue && dto.EndDate.HasValue && dto.StartDate >= dto.EndDate)
                 return BadRequest(new { message = "Start date must be before end date" });
 
-            if (dto.DiscountPercentage.HasValue && (dto.DiscountPercentage < 0 || dto.DiscountPercentage > 100))
+            if (dto.DiscountPercentage.HasValue &&
+                (dto.DiscountPercentage < 0 || dto.DiscountPercentage > 100))
+            {
                 return BadRequest(new { message = "Discount percentage must be between 0 and 100" });
+            }
 
             var result = await _promotionServices.UpdatePromotionAsync(promotionId, dto);
             if (!result)
@@ -68,7 +72,7 @@ namespace Cartify.API.Controllers.MerchantControllers
         }
 
         // =========================================================
-        // 🔹 DELETE PROMOTION
+        // 🔹 DELETE PROMOTION → DELETE /api/merchant/promotions/{promotionId}
         // =========================================================
         [HttpDelete("{promotionId:int}")]
         public async Task<IActionResult> DeletePromotion([FromRoute] int promotionId)
@@ -85,6 +89,7 @@ namespace Cartify.API.Controllers.MerchantControllers
 
         // =========================================================
         // 🔹 GET ALL PROMOTIONS
+        //     → GET /api/merchant/promotions
         // =========================================================
         [HttpGet]
         public async Task<IActionResult> GetAllPromotions()
@@ -95,6 +100,7 @@ namespace Cartify.API.Controllers.MerchantControllers
 
         // =========================================================
         // 🔹 GET PROMOTION BY ID
+        //     → GET /api/merchant/promotions/{promotionId}
         // =========================================================
         [HttpGet("{promotionId:int}")]
         public async Task<IActionResult> GetPromotionById([FromRoute] int promotionId)
@@ -104,7 +110,7 @@ namespace Cartify.API.Controllers.MerchantControllers
 
             var promotions = await _promotionServices.GetAllPromotionsAsync();
             var promotion = promotions.FirstOrDefault(p => p.PromotionId == promotionId);
-            
+
             if (promotion == null)
                 return NotFound(new { message = "Promotion not found" });
 
@@ -113,8 +119,9 @@ namespace Cartify.API.Controllers.MerchantControllers
 
         // =========================================================
         // 🔹 GET PROMOTION BY PRODUCT DETAIL ID
+        //     → GET /api/merchant/promotions/by-product-detail/{productDetailId}
         // =========================================================
-        [HttpGet("product-detail/{productDetailId:int}")]
+        [HttpGet("by-product-detail/{productDetailId:int}")]
         public async Task<IActionResult> GetPromotionByProductDetailId([FromRoute] int productDetailId)
         {
             if (productDetailId <= 0)
@@ -129,8 +136,9 @@ namespace Cartify.API.Controllers.MerchantControllers
 
         // =========================================================
         // 🔹 GET PROMOTIONS BY SUBCATEGORY ID
+        //     → GET /api/merchant/promotions/by-subcategory/{subCategoryId}
         // =========================================================
-        [HttpGet("subcategory/{subCategoryId:int}")]
+        [HttpGet("by-subcategory/{subCategoryId:int}")]
         public async Task<IActionResult> GetPromotionsBySubCategoryId([FromRoute] int subCategoryId)
         {
             if (subCategoryId <= 0)
