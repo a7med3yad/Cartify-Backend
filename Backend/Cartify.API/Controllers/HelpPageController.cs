@@ -1,8 +1,13 @@
-﻿using Cartify.Application.Contracts.HelpPageDtos;
-using System;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Cartify.API.Contracts;
+using Cartify.Application.Contracts;
+using Cartify.Application.Contracts.HelpPageDtos;
+using Cartify.Application.Services.Interfaces;
+using Cartify.Application.Services.Interfaces.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Cartify.API.Controllers
 {
@@ -10,39 +15,24 @@ namespace Cartify.API.Controllers
     [ApiController]
     public class HelpPageController : ControllerBase
     {
-        [HttpGet("GetTopics")]
-        public async Task<IActionResult> GetTopics()
-        {
-            await Task.CompletedTask;
-            return Ok();
-        }
+		private readonly ISubmitTicket _submitTicket;
+		private readonly IMapper _mapper;
 
-        [HttpGet("GetTopic/{id}")]
-        public async Task<IActionResult> GetTopic(Guid id)
-        {
-            await Task.CompletedTask;
-            return Ok();
-        }
-
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CreateHelpTopicDto topic)
-        {
-            await Task.CompletedTask;
-            return Ok();
-        }
-
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateHelpTopicDto topic)
-        {
-            await Task.CompletedTask;
-            return Ok();
-        }
-
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            await Task.CompletedTask;
-            return Ok();
-        }
+		public HelpPageController( ISubmitTicket submitTicket,IMapper mapper)
+		{
+			_submitTicket = submitTicket;
+			_mapper = mapper;
+		}
+        [HttpPost("SubmitTicket")]
+        public async Task<IActionResult> SubmitTicket([FromBody] DtoSubmitTicket dto)
+		{
+			SendTicketDto dto2=new SendTicketDto { Email = dto.Email,IssueCategory=dto.IssueCategory,Message=dto.Message,Name=dto.Name,Subject=dto.Subject };
+			var a=await _submitTicket.SendTicket(dto2);
+			if (a)
+			{
+				return Ok();	
+			}
+			return NotFound();
+		}
     }
 }

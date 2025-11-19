@@ -40,7 +40,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
     public virtual DbSet<TblUserStore> TblUserStores { get; set; }
     public virtual DbSet<lkpAttribute> lkpAttributes { get; set; }
     public virtual DbSet<TblUser> TblUsers { get; set; }
-
+	public virtual DbSet<Ticket> Tickets { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -140,7 +140,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .HasMaxLength(200);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
         });
-
         modelBuilder.Entity<LkpShipementMethod>(entity =>
         {
             entity.HasKey(e => e.ShipementMethodId);
@@ -158,7 +157,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .IsRequired()
                 .HasMaxLength(50);
         });
-
         modelBuilder.Entity<PasswordResetCode>(entity =>
         {
             entity.HasIndex(e => e.UserId, "IX_PasswordResetCodes_UserId");
@@ -166,7 +164,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
             entity.Property(e => e.Code).IsRequired();
             entity.Property(e => e.UserId).IsRequired();
         });
-
         modelBuilder.Entity<TblAddress>(entity =>
         {
             entity.HasKey(e => e.AddressId).HasName("PK_TblAdresses_1");
@@ -185,7 +182,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
             entity.Property(e => e.State).HasMaxLength(50);
             entity.Property(e => e.StreetAddress).HasMaxLength(50);
         });
-
         modelBuilder.Entity<TblCategory>(entity =>
         {
             entity.HasKey(e => e.CategoryId);
@@ -201,7 +197,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedDate).HasColumnType("datetime");
         });
-
         modelBuilder.Entity<TblInventory>(entity =>
         {
             entity.HasKey(e => e.InventoryId);
@@ -227,8 +222,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TblInventory_TblProductDetails1");
         });
-
-
         modelBuilder.Entity<TblOrder>(entity =>
         {
             entity.HasKey(e => e.OrderId);
@@ -278,7 +271,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
 
 
         });
-
         modelBuilder.Entity<TblOrderDetail>(entity =>
         {
             entity.HasKey(e => e.OrderDetailId);
@@ -308,7 +300,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TblOrderProducts_TblProducts");
         });
-
         modelBuilder.Entity<TblProduct>(entity =>
         {
             entity.HasKey(e => e.ProductId);
@@ -338,7 +329,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .HasConstraintName("FK_TblProducts_TblUserStore1");
 
         });
-
         modelBuilder.Entity<TblProductDetail>(entity =>
         {
             entity.HasKey(e => e.ProductDetailId);
@@ -357,7 +347,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TblProductDetails_TblProducts");
         });
-
         modelBuilder.Entity<TblProductImage>(entity =>
         {
             entity.HasIndex(e => e.ProductId, "IX_TblProductImages_ProductId");
@@ -372,7 +361,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TblProductImages_TblProducts");
         });
-
         modelBuilder.Entity<TblRefund>(entity =>
         {
             entity.HasKey(e => e.RefundId);
@@ -395,7 +383,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TblRefunds_TblOrderDetails");
         });
-
         modelBuilder.Entity<TblReview>(entity =>
         {
             entity.HasKey(e => e.ReviewId);
@@ -540,8 +527,20 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+			entity.HasMany(e=>e.Tickets);
         });
+		modelBuilder.Entity<Ticket>(entity =>
+		{
+			entity.HasKey(e => e.Id);
+			entity.Property(e => e.IssueCategory).HasConversion<string>();
+			entity.Property(e=>e.TicketStatus).HasConversion<string>();
+			entity.Property(e => e.Subject).HasMaxLength(50);
+			entity.Property(e => e.Email).HasMaxLength(100);
+			entity.Property(e => e.Message).HasMaxLength(200);
+			entity.Property(e => e.TicketStatus).HasMaxLength(50);
+			entity.Property(e => e.IssueCategory).HasMaxLength(50);
 
+		});
         OnModelCreatingPartial(modelBuilder);
     }
 

@@ -46,6 +46,7 @@ namespace Cartify.API
             // -----------------------------
             builder.Services.AddControllers();
 
+<<<<<<< HEAD
 
             // -----------------------------
             // CORS (DEBUG MODE - AllowAnyOrigin)
@@ -67,6 +68,27 @@ namespace Cartify.API
             // Database Context
             // -----------------------------
             builder.Services.AddDbContext<AppDbContext>(options =>
+=======
+			// 🌐 CORS Policy
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowOrigins", policy =>
+				{
+					policy.WithOrigins(
+							"http://127.0.0.1:5500",
+							"https://a7med3yad.github.io")
+						  .AllowAnyMethod()
+						  .AllowAnyHeader()
+						  .AllowCredentials();
+				});
+			});
+
+			// ayad is here
+
+
+			// 🧱 Database Context
+			builder.Services.AddDbContext<AppDbContext>(options =>
+>>>>>>> main
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
@@ -123,6 +145,12 @@ namespace Cartify.API
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ICreateMerchantProfile, CreateMerchantProfile>();
             builder.Services.AddScoped<GetUserServices>();
+<<<<<<< HEAD
+=======
+			builder.Services.AddScoped<ISubmitTicket,SubmitTicket>();
+
+            // 👤 Profile Services
+>>>>>>> main
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
             builder.Services.AddScoped<IProfileServices, ProfileServices>();
             builder.Services.AddScoped<IProfileService, ProfileService>();
@@ -224,8 +252,13 @@ namespace Cartify.API
 
 
             app.UseHttpsRedirection();
+<<<<<<< HEAD
             app.UseCors("CartifyCors"); // ✅
             app.UseAuthentication();
+=======
+			app.UseCors("AllowOrigins");
+			app.UseAuthentication();
+>>>>>>> main
             app.UseAuthorization();
             app.MapControllers();
 
