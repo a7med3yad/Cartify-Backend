@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cartify.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251114214537_a")]
-    partial class a
+    [Migration("20251120142144_FSD")]
+    partial class FSD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace Cartify.Infrastructure.Migrations
                     b.ToTable("PasswordResetCodes");
                 });
 
-            modelBuilder.Entity("Cartify.Domain.Entities.Tickets", b =>
+            modelBuilder.Entity("Cartify.Domain.Entities.Ticket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -257,46 +257,6 @@ namespace Cartify.Infrastructure.Migrations
                     b.HasIndex("ProductDetailId");
 
                     b.ToTable("LkpProductDetailsAttributes");
-                });
-
-            modelBuilder.Entity("Cartify.Domain.Models.LkpPromotion", b =>
-                {
-                    b.Property<int>("PromotionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DeletedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<decimal>("DiscountPercentage")
-                        .HasColumnType("decimal(9, 2)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("PromotionName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("PromotionId");
-
-                    b.ToTable("LkpPromotions");
                 });
 
             modelBuilder.Entity("Cartify.Domain.Models.LkpShipementMethod", b =>
@@ -865,7 +825,10 @@ namespace Cartify.Infrastructure.Migrations
             modelBuilder.Entity("Cartify.Domain.Models.TblType", b =>
                 {
                     b.Property<int>("TypeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeId"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -1107,21 +1070,6 @@ namespace Cartify.Infrastructure.Migrations
                     b.ToTable("lkpAttributes");
                 });
 
-            modelBuilder.Entity("LkpPromotionTblProductDetail", b =>
-                {
-                    b.Property<int>("ProductDetailsProductDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PromotionsPromotionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductDetailsProductDetailId", "PromotionsPromotionId");
-
-                    b.HasIndex("PromotionsPromotionId");
-
-                    b.ToTable("LkpPromotionTblProductDetail");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1304,7 +1252,7 @@ namespace Cartify.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Cartify.Domain.Entities.Tickets", b =>
+            modelBuilder.Entity("Cartify.Domain.Entities.Ticket", b =>
                 {
                     b.HasOne("Cartify.Domain.Models.TblUser", null)
                         .WithMany("Tickets")
@@ -1539,21 +1487,6 @@ namespace Cartify.Infrastructure.Migrations
                         .HasConstraintName("FK_TblUserStore_TblInventory");
 
                     b.Navigation("Inventory");
-                });
-
-            modelBuilder.Entity("LkpPromotionTblProductDetail", b =>
-                {
-                    b.HasOne("Cartify.Domain.Models.TblProductDetail", null)
-                        .WithMany()
-                        .HasForeignKey("ProductDetailsProductDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cartify.Domain.Models.LkpPromotion", null)
-                        .WithMany()
-                        .HasForeignKey("PromotionsPromotionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
