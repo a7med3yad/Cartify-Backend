@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cartify.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class siuu : Migration
+    public partial class FSD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -105,24 +105,6 @@ namespace Cartify.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LkpPromotions",
-                columns: table => new
-                {
-                    PromotionId = table.Column<int>(type: "int", nullable: false),
-                    PromotionName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DiscountPercentage = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
-                    ImgUrl = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LkpPromotions", x => x.PromotionId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LkpShipementMethods",
                 columns: table => new
                 {
@@ -190,7 +172,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblTypes",
                 columns: table => new
                 {
-                    TypeId = table.Column<int>(type: "int", nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     TypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     TypeDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -392,6 +375,32 @@ namespace Cartify.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IssueCategory = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TicketStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TblUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_AspNetUsers_TblUserId",
+                        column: x => x.TblUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LkpProductDetailsAttributes",
                 columns: table => new
                 {
@@ -414,24 +423,6 @@ namespace Cartify.Infrastructure.Migrations
                         column: x => x.AttributeId,
                         principalTable: "lkpAttributes",
                         principalColumn: "AttributeId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LkpPromotionTblProductDetail",
-                columns: table => new
-                {
-                    ProductDetailsProductDetailId = table.Column<int>(type: "int", nullable: false),
-                    PromotionsPromotionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LkpPromotionTblProductDetail", x => new { x.ProductDetailsProductDetailId, x.PromotionsPromotionId });
-                    table.ForeignKey(
-                        name: "FK_LkpPromotionTblProductDetail_LkpPromotions_PromotionsPromotionId",
-                        column: x => x.PromotionsPromotionId,
-                        principalTable: "LkpPromotions",
-                        principalColumn: "PromotionId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -792,11 +783,6 @@ namespace Cartify.Infrastructure.Migrations
                 column: "ProductDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LkpPromotionTblProductDetail_PromotionsPromotionId",
-                table: "LkpPromotionTblProductDetail",
-                column: "PromotionsPromotionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PasswordResetCodes_UserId",
                 table: "PasswordResetCodes",
                 column: "UserId");
@@ -897,6 +883,11 @@ namespace Cartify.Infrastructure.Migrations
                 table: "TblUserStoreCustomers",
                 column: "UserId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_TblUserId",
+                table: "Tickets",
+                column: "TblUserId");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                 table: "AspNetUserClaims",
@@ -936,14 +927,6 @@ namespace Cartify.Infrastructure.Migrations
                 principalColumn: "ProductDetailId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_LkpPromotionTblProductDetail_TblProductDetails_ProductDetailsProductDetailId",
-                table: "LkpPromotionTblProductDetail",
-                column: "ProductDetailsProductDetailId",
-                principalTable: "TblProductDetails",
-                principalColumn: "ProductDetailId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_TblInventory_TblProductDetails1",
                 table: "TblInventory",
                 column: "ProductDetailId",
@@ -977,9 +960,6 @@ namespace Cartify.Infrastructure.Migrations
                 name: "LkpProductDetailsAttributes");
 
             migrationBuilder.DropTable(
-                name: "LkpPromotionTblProductDetail");
-
-            migrationBuilder.DropTable(
                 name: "PasswordResetCodes");
 
             migrationBuilder.DropTable(
@@ -1001,6 +981,9 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblUserStoreCustomers");
 
             migrationBuilder.DropTable(
+                name: "Tickets");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -1008,9 +991,6 @@ namespace Cartify.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "lkpAttributes");
-
-            migrationBuilder.DropTable(
-                name: "LkpPromotions");
 
             migrationBuilder.DropTable(
                 name: "TblOrderDetails");

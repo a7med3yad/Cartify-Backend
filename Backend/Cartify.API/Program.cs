@@ -18,6 +18,7 @@ using Cartify.Infrastructure.Implementation.Services;
 using Cartify.Infrastructure.Implementation.Services.Helper;
 using Cartify.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +29,7 @@ namespace Cartify.API
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -41,24 +43,22 @@ namespace Cartify.API
             // 🧾 Controllers
             builder.Services.AddControllers();
 
-            // 🌐 CORS Policy (Netlify + Localhost)
+            // 🌐 CORS Policy
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("CartifyCors", policy =>
+                options.AddPolicy("AllowOrigins", policy =>
                 {
                     policy.WithOrigins(
                             "http://127.0.0.1:5500",
-                            "http://localhost:5500",
-                            "https://cartify0.netlify.app"
-                        // لو استخدمت https في اللايف سيرفر:
-                        // "https://127.0.0.1:5500",
-                        // "https://localhost:5500"
-                        )
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                    // .AllowCredentials(); // بس لو هتستخدم Cookies أو Auth مدمج مع المتصفح
+                            "https://cartify0.netlify.app")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials();
                 });
             });
+
+            // ayad is here
+
 
             // 🧱 Database Context
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -104,6 +104,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ICreateMerchantProfile, CreateMerchantProfile>();
             builder.Services.AddScoped<GetUserServices>();
+            builder.Services.AddScoped<ISubmitTicket, SubmitTicket>();
 
             // 👤 Profile Services
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -189,27 +190,25 @@ namespace Cartify.API
                 });
             });
 
+
             // 🚀 Build app
             var app = builder.Build();
 
-            // ✅ Swagger
+            // 🧩 Middleware
+            // ✅ Enable Swagger in all environments (Development & Production)
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cartify API v1");
-                c.RoutePrefix = "swagger";
+                c.RoutePrefix = "swagger"; // Swagger will be available at /swagger
                 c.DocumentTitle = "Cartify API Documentation";
-                c.DefaultModelsExpandDepth(-1);
+                c.DefaultModelsExpandDepth(-1); // Hide models section by default
             });
 
             app.UseHttpsRedirection();
-
-            // 🔓 CORS (لازم قبل Auth و قبل MapControllers)
-            app.UseCors("CartifyCors");
-
+            app.UseCors("AllowOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
 
             // 🟢 Health check
