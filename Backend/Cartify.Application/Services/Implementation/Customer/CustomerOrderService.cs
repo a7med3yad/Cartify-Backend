@@ -71,16 +71,6 @@ namespace Cartify.Application.Services.Implementation.Customer
                 var itemPrice = productDetail.Price * item.Quantity;
                 decimal itemDiscount = 0;
 
-                // Check for promotions
-                var promotions = productDetail.Promotions?
-                    .Where(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now && !p.IsDeleted)
-                    .ToList();
-
-                if (promotions != null && promotions.Any())
-                {
-                    var activePromotion = promotions.OrderByDescending(p => p.DiscountPercentage).First();
-                    itemDiscount = itemPrice * (activePromotion.DiscountPercentage / 100);
-                }
 
                 totalPrice += itemPrice;
                 totalDiscount += itemDiscount;

@@ -305,8 +305,7 @@ namespace Cartify.Application.Services.Implementation.Merchant
                 p => p.Inventory,
                 p => p.LkpProductDetailsAttributes,
                 p => p.LkpProductDetailsAttributes.Select(a => a.Attribute),
-                p => p.LkpProductDetailsAttributes.Select(a => a.MeasureUnit),
-                p => p.Promotions
+                p => p.LkpProductDetailsAttributes.Select(a => a.MeasureUnit)
             );
 
             var productDetail = await query
@@ -329,13 +328,8 @@ namespace Cartify.Application.Services.Implementation.Merchant
                     {
                         Name = a.Attribute?.Name,
                         MeasureUnit = a.MeasureUnit?.Name
-                    }).ToList() ?? new List<AttributeDto>(),
-                Promotions = productDetail.Promotions?
-                    .Select(p => new PromotionDto
-                    {
-                        PromotionName = p.PromotionName,
-                        DiscountPercentage = p.DiscountPercentage
-                    }).ToList() ?? new List<PromotionDto>()
+                    }).ToList() ?? new List<AttributeDto>()
+                   
             };
 
             if (dto.Promotions.Any())

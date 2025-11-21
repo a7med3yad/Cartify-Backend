@@ -43,25 +43,25 @@ namespace Cartify.API
             // 🧾 Controllers
             builder.Services.AddControllers();
 
-			// 🌐 CORS Policy
-			builder.Services.AddCors(options =>
-			{
-				options.AddPolicy("AllowOrigins", policy =>
-				{
-					policy.WithOrigins(
-							"http://127.0.0.1:5500",
-							"https://a7med3yad.github.io")
-						  .AllowAnyMethod()
-						  .AllowAnyHeader()
-						  .AllowCredentials();
-				});
-			});
+            // 🌐 CORS Policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigins", policy =>
+                {
+                    policy.WithOrigins(
+                            "http://127.0.0.1:5500",
+                            "https://cartify0.netlify.app")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials();
+                });
+            });
 
-			// ayad is here
+            // ayad is here
 
 
-			// 🧱 Database Context
-			builder.Services.AddDbContext<AppDbContext>(options =>
+            // 🧱 Database Context
+            builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // 👤 Identity Configuration
@@ -104,7 +104,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ICreateMerchantProfile, CreateMerchantProfile>();
             builder.Services.AddScoped<GetUserServices>();
-			builder.Services.AddScoped<ISubmitTicket,SubmitTicket>();
+            builder.Services.AddScoped<ISubmitTicket, SubmitTicket>();
 
             // 👤 Profile Services
             builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -122,8 +122,6 @@ namespace Cartify.API
             builder.Services.AddScoped<IMerchantCustomerServices, MerchantCustomerServices>();
             builder.Services.AddScoped<IMerchantInventoryServices, MerchantInventoryServices>();
             builder.Services.AddScoped<IMerchantOrderServices, MerchantOrderServices>();
-            builder.Services.AddScoped<IMerchantTransactionServices, MerchantTransactionServices>();
-            builder.Services.AddScoped<IMerchantProfileServices, MerchantProfileServices>();
 
             // 🧭 Mapping + Configurations
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -197,11 +195,6 @@ namespace Cartify.API
             var app = builder.Build();
 
             // 🧩 Middleware
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseCors("AllowGitHub");
-            }
-
             // ✅ Enable Swagger in all environments (Development & Production)
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -213,8 +206,8 @@ namespace Cartify.API
             });
 
             app.UseHttpsRedirection();
-			app.UseCors("AllowOrigins");
-			app.UseAuthentication();
+            app.UseCors("AllowOrigins");
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
 

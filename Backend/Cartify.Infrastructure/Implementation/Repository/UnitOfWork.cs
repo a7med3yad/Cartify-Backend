@@ -33,8 +33,6 @@ namespace Cartify.Infrastructure.Implementation.Services
 
         public IRepository<TblReview> ReviewRepository { get; }
 
-        public IRepository<LkpPromotion> PromotionsRepository { get; }
-
         public IRepository<lkpAttribute> AttributeRepository { get; }
 
         public IRepository<LkpMeasureUnite> MeasureUnitRepository { get; }
@@ -62,7 +60,6 @@ namespace Cartify.Infrastructure.Implementation.Services
 			IRepository<TblProductImage> imagesRepository,
 			IRepository<TblProductDetail> productDetails,
 			IRepository<TblReview> reviewRepository,
-			IRepository<LkpPromotion> promotionsRepository,
 			IRepository<lkpAttribute> attributeRepository,
 			IRepository<LkpMeasureUnite> measureUnitRepository,
 			ICheckoutRepository checkoutRepository,
@@ -85,7 +82,6 @@ namespace Cartify.Infrastructure.Implementation.Services
 			this.ImagesRepository = imagesRepository;
 			this.ProductDetailsRepository = productDetails;
 			this.ReviewRepository = reviewRepository;
-			this.PromotionsRepository = promotionsRepository;
 			this.MeasureUnitRepository = measureUnitRepository;
 			this.OrderStatusRepository = OrderStatusRepository;
 			this.CheckoutRepository = checkoutRepository;

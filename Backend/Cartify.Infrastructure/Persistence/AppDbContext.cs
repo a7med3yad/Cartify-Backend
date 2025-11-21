@@ -23,7 +23,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
     public virtual DbSet<LkpOrderStatue> LkpOrderStatues { get; set; }
     public virtual DbSet<LkpPaymentType> LkpPaymentTypes { get; set; }
     public virtual DbSet<LkpProductDetailsAttribute> LkpProductDetailsAttributes { get; set; }
-    public virtual DbSet<LkpPromotion> LkpPromotions { get; set; }
     public virtual DbSet<LkpShipementMethod> LkpShipementMethods { get; set; }
     public virtual DbSet<PasswordResetCode> PasswordResetCodes { get; set; }
     public virtual DbSet<TblAddress> TblAddresses { get; set; }
@@ -119,27 +118,7 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LkpProductDetailsAttributes_TblProductDetails");
         });
-        modelBuilder.Entity<LkpPromotion>(entity =>
-        {
-            entity.HasKey(e => e.PromotionId);
-            entity.Property(e => e.PromotionId).ValueGeneratedOnAdd();
 
-            entity.Property(e => e.DeletedDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
-            entity.Property(e=> e.ImgUrl)
-                .IsRequired()
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.PromotionId).ValueGeneratedNever();
-            entity.Property(e => e.DiscountPercentage).HasColumnType("decimal(9, 2)");
-            entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.PromotionName)
-                .IsRequired()
-                .HasMaxLength(200);
-            entity.Property(e => e.StartDate).HasColumnType("datetime");
-        });
         modelBuilder.Entity<LkpShipementMethod>(entity =>
         {
             entity.HasKey(e => e.ShipementMethodId);
@@ -409,7 +388,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
 
             entity.HasIndex(e => e.CategoryId, "IX_TblTypes_CategoryId");
 
-            entity.Property(e => e.TypeId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
