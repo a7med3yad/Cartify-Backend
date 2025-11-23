@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cartify.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FSD : Migration
+    public partial class IBuiltThisShit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "lkpAttributes",
                 columns: table => new
                 {
-                    AttributeId = table.Column<int>(type: "int", nullable: false),
+                    AttributeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -408,7 +409,8 @@ namespace Cartify.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductDetailId = table.Column<int>(type: "int", nullable: false),
                     AttributeId = table.Column<int>(type: "int", nullable: false),
-                    MeasureUnitId = table.Column<int>(type: "int", nullable: false)
+                    MeasureUnitId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -614,7 +616,8 @@ namespace Cartify.Infrastructure.Migrations
                 name: "TblProductDetails",
                 columns: table => new
                 {
-                    ProductDetailId = table.Column<int>(type: "int", nullable: false),
+                    ProductDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SerialNumber = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
