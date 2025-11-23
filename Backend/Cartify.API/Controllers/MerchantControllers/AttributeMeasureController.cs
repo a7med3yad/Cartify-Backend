@@ -127,17 +127,27 @@ namespace Cartify.API.Controllers.MerchantControllers
         // =========================================================
 
         /// <summary>
-        /// Gets all measures associated with a specific attribute
+        /// Gets all measures associated with a specific attribute by attribute ID
         /// </summary>
-        [HttpGet("attributes/{attributeName}/measures")]
+        /// <param name="attributeId">The ID of the attribute</param>
+        /// <returns>List of measure names associated with the attribute</returns>
+        [HttpGet("attributes/{attributeId}/measures")]
         [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetMeasuresByAttribute([FromRoute] string attributeName)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetMeasuresByAttribute([FromRoute] int attributeId)
         {
-            if (string.IsNullOrWhiteSpace(attributeName))
-                return BadRequest(new { message = "Attribute name is required" });
+            // Validate attribute ID
+            if (attributeId <= 0)
+                return BadRequest(new { message = "Invalid attribute ID. Attribute ID must be greater than 0." });
 
-            var measures = await _attributeMeasureServices.GetMeasuresByAttributeAsync(attributeName);
+            var measures = await _attributeMeasureServices.GetMeasuresByAttributeAsync(attributeId);
+            
+            // If null is returned, it means the attribute was not found
+            if (measures == null)
+                return NotFound(new { message = $"Attribute with ID {attributeId} not found." });
+
+            // Return empty list if no measures found (this is valid - attribute exists but has no measures)
             return Ok(measures);
         }
 
