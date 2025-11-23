@@ -150,21 +150,29 @@ namespace Cartify.Application.Services.Implementation.Merchant
         // =========================================================
 
         /// <summary>
-        /// Gets all measures associated with a specific attribute
+        /// Gets all measures associated with a specific attribute by attribute ID
         /// </summary>
-        public async Task<IEnumerable<string>> GetMeasuresByAttributeAsync(string attributeName)
+        /// <param name="attributeId">The ID of the attribute</param>
+        /// <returns>
+        /// List of measure names associated with the attribute.
+        /// Returns null if attribute not found.
+        /// Returns empty list if attribute exists but has no measures.
+        /// </returns>
+        public async Task<IEnumerable<string>> GetMeasuresByAttributeAsync(int attributeId)
         {
-            if (string.IsNullOrWhiteSpace(attributeName))
-                return new List<string>();
+            // Validate input
+            if (attributeId <= 0)
+                return null;
 
-            // Find the attribute
-            var attribute = await _unitOfWork.AttributeRepository
-                .Search(a => a.Name.ToLower() == attributeName.ToLower().Trim() && !a.IsDeleted);
+            // Find the attribute by ID
+            var attribute = await _unitOfWork.AttributeRepository.ReadByIdAsync(attributeId);
 
-            if (attribute == null)
-                return new List<string>();
+            // Check if attribute exists and is not deleted
+            if (attribute == null || attribute.IsDeleted)
+                return null;
 
-            // Get all product detail attributes that use this attribute
+            // Get all product detail attributes that use this attribute ID
+            // Query directly using AttributeId instead of name matching for better performance
             var query = _unitOfWork.ProductDetailsRepository
                 .GetAllIncluding2(
                     pd => pd.LkpProductDetailsAttributes,
@@ -173,14 +181,16 @@ namespace Cartify.Application.Services.Implementation.Merchant
                 )
                 .Where(pd => !pd.IsDeleted)
                 .SelectMany(pd => pd.LkpProductDetailsAttributes)
-                .Where(pda => pda.AttributeId == attribute.AttributeId 
+                .Where(pda => pda.AttributeId == attributeId 
                            && pda.MeasureUnit != null 
                            && !pda.MeasureUnit.IsDeleted)
                 .Select(pda => pda.MeasureUnit.Name)
                 .Distinct();
 
             var measures = await query.ToListAsync();
-            return measures;
+            
+            // Return empty list if no measures found (attribute exists but has no measures)
+            return measures ?? new List<string>();
         }
 
         /// <summary>

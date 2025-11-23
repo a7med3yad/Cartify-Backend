@@ -50,10 +50,14 @@ namespace Cartify.API
                 {
                     policy.WithOrigins(
                             "http://127.0.0.1:5500",
+                            "http://localhost:5500",
+                            "http://localhost:3000",
+                            "http://localhost:8080",
                             "https://cartify0.netlify.app")
                           .AllowAnyMethod()
                           .AllowAnyHeader()
-                          .AllowCredentials();
+                          .AllowCredentials()
+                          .SetPreflightMaxAge(TimeSpan.FromMinutes(10)); // Cache preflight for 10 minutes
                 });
             });
 
