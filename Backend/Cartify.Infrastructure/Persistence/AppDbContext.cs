@@ -117,6 +117,13 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .HasForeignKey(d => d.ProductDetailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LkpProductDetailsAttributes_TblProductDetails");
+            entity.Property(e => e.Value)
+                  .IsRequired();
+            entity.Property(e => e.Value)
+                  .HasMaxLength(200);
+
+
+
         });
 
         modelBuilder.Entity<LkpShipementMethod>(entity =>

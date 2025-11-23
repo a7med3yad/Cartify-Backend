@@ -14,6 +14,7 @@ public partial class LkpProductDetailsAttribute
     public int AttributeId { get; set; }
 
     public int MeasureUnitId { get; set; }
+    public string Value { get; set; }
 
     public virtual lkpAttribute Attribute { get; set; }
 

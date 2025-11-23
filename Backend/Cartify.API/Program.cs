@@ -122,6 +122,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IMerchantCustomerServices, MerchantCustomerServices>();
             builder.Services.AddScoped<IMerchantInventoryServices, MerchantInventoryServices>();
             builder.Services.AddScoped<IMerchantOrderServices, MerchantOrderServices>();
+            builder.Services.AddScoped<IMerchantAttributeMeasureServices, MerchantAttributeMeasureServices>();
 
             // 🧭 Mapping + Configurations
             builder.Services.AddAutoMapper(typeof(MappingProfile));
