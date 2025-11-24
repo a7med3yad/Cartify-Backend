@@ -77,5 +77,10 @@ namespace Cartify.Infrastructure.Implementation.Repository
 			return list;
 
 		}
+
+        public IQueryable<T> GetAll(bool asNoTracking = true)
+        {
+            return asNoTracking ? _entity.AsNoTracking() : _entity.AsQueryable();
+        }
 	}
 }

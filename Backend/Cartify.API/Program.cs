@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Cartify.Application.Mappings;
 using Cartify.Application.Services.Implementation;
+using Cartify.Application.Services.Implementation.Admin;
 using Cartify.Application.Services.Implementation.Authentication;
 using Cartify.Application.Services.Implementation.Customer;
 using Cartify.Application.Services.Implementation.Helper;
@@ -80,6 +81,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IRegisterService, RegisterService>();
             builder.Services.AddScoped<ICreateJWTToken, CreateJWTToken>();
             builder.Services.AddScoped<IResetPassword, ResetPassword>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddHttpContextAccessor();
 
             // ☁️ AWS S3 Configuration (manual secure setup)
