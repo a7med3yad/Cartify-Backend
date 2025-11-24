@@ -44,8 +44,9 @@ namespace Cartify.Infrastructure.Implementation.Services
         public IOrdertrackingRepository OrdertrackingRepository { get; }
 
 		public IRepository<Ticket> TicketRepository { get; }
+		public IRepository<Ticket>WishlistRepository { get; }
 
-		public UnitOfWork(
+        public UnitOfWork(
 			AppDbContext context,
             IRepository<LkpOrderStatue> OrderStatusRepository,
             IRepository<PasswordResetCode> passwordResetCodess,
@@ -64,11 +65,12 @@ namespace Cartify.Infrastructure.Implementation.Services
 			IRepository<LkpMeasureUnite> measureUnitRepository,
 			ICheckoutRepository checkoutRepository,
 			IOrdertrackingRepository ordertrackingRepository,
-			IRepository<Ticket> TicketRepository
-
+			IRepository<Ticket> TicketRepository,
+            IRepository<Ticket> WishlistRepository
 			)
 		{
-			_context = context;
+
+            _context = context;
 			this.PasswordResetCodess = passwordResetCodess;
 			this.ProfileRepository = ProfileRepository;
 			this.AttributeRepository = attributeRepository;
@@ -87,7 +89,7 @@ namespace Cartify.Infrastructure.Implementation.Services
 			this.CheckoutRepository = checkoutRepository;
 			this.OrdertrackingRepository = ordertrackingRepository;
 			this.TicketRepository=TicketRepository;
-
+			this.WishlistRepository=WishlistRepository;
         }
 
 		public void Dispose()
