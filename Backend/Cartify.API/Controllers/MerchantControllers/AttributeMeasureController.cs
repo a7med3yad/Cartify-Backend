@@ -1,4 +1,5 @@
 using Cartify.Application.Services.Interfaces.Merchant;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace Cartify.API.Controllers.MerchantControllers
 {
     [Route("api/merchant/attributes-measures")]
     [ApiController]
-    [Authorize(Roles = "Merchant")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Merchant")]
     public class AttributeMeasureController : ControllerBase
     {
         private readonly IMerchantAttributeMeasureServices _attributeMeasureServices;
@@ -122,65 +123,9 @@ namespace Cartify.API.Controllers.MerchantControllers
             return Ok(new { message = "Measure added successfully ✅", name = request.Name });
         }
 
-        // =========================================================
-        // 🔹 MEASURE BY ATTRIBUTE METHODS
-        // =========================================================
 
-        /// <summary>
-        /// Gets all measures associated with a specific attribute by attribute ID
-        /// </summary>
-        /// <param name="attributeId">The ID of the attribute</param>
-        /// <returns>List of measure names associated with the attribute</returns>
-        [HttpGet("attributes/{attributeId}/measures")]
-        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetMeasuresByAttribute([FromRoute] int attributeId)
-        {
-            // Validate attribute ID
-            if (attributeId <= 0)
-                return BadRequest(new { message = "Invalid attribute ID. Attribute ID must be greater than 0." });
 
-            var measures = await _attributeMeasureServices.GetMeasuresByAttributeAsync(attributeId);
-            
-            // If null is returned, it means the attribute was not found
-            if (measures == null)
-                return NotFound(new { message = $"Attribute with ID {attributeId} not found." });
 
-            // Return empty list if no measures found (this is valid - attribute exists but has no measures)
-            return Ok(measures);
-        }
-
-        /// <summary>
-        /// Adds a measure to an attribute (ensures measure exists for use with attribute)
-        /// </summary>
-        [HttpPost("attributes/{attributeName}/measures")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> AddMeasureByAttribute(
-            [FromRoute] string attributeName,
-            [FromBody] MeasureRequest request)
-        {
-            if (string.IsNullOrWhiteSpace(attributeName))
-                return BadRequest(new { message = "Attribute name is required" });
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (string.IsNullOrWhiteSpace(request.Name))
-                return BadRequest(new { message = "Measure name is required" });
-
-            var result = await _attributeMeasureServices.AddMeasureByAttributeAsync(attributeName, request.Name);
-            if (!result)
-                return NotFound(new { message = "Attribute not found or failed to add measure" });
-
-            return Ok(new { 
-                message = "Measure added to attribute successfully ✅", 
-                attributeName = attributeName,
-                measureName = request.Name 
-            });
-        }
     }
 
     // =========================================================
