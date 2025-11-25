@@ -211,7 +211,10 @@ namespace Cartify.API
             });
 
             app.UseHttpsRedirection();
+            
+            // CORS must be before Authentication and Authorization
             app.UseCors("AllowOrigins");
+            
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
