@@ -1,4 +1,5 @@
-﻿using Cartify.Domain.Models;
+﻿using System;
+using Cartify.Domain.Models;
 
 namespace Cartify.Application.Services.Interfaces
 {
