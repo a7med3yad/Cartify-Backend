@@ -50,10 +50,14 @@ namespace Cartify.API
                 {
                     policy.WithOrigins(
                             "http://127.0.0.1:5500",
+                            "http://localhost:5500",
+                            "http://localhost:3000",
+                            "http://localhost:8080",
                             "https://cartify0.netlify.app")
                           .AllowAnyMethod()
                           .AllowAnyHeader()
-                          .AllowCredentials();
+                          .AllowCredentials()
+                          .SetPreflightMaxAge(TimeSpan.FromMinutes(10)); // Cache preflight for 10 minutes
                 });
             });
 
@@ -122,6 +126,7 @@ namespace Cartify.API
             builder.Services.AddScoped<IMerchantCustomerServices, MerchantCustomerServices>();
             builder.Services.AddScoped<IMerchantInventoryServices, MerchantInventoryServices>();
             builder.Services.AddScoped<IMerchantOrderServices, MerchantOrderServices>();
+            builder.Services.AddScoped<IMerchantAttributeMeasureServices, MerchantAttributeMeasureServices>();
 
             // 🧭 Mapping + Configurations
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -206,7 +211,10 @@ namespace Cartify.API
             });
 
             app.UseHttpsRedirection();
+            
+            // CORS must be before Authentication and Authorization
             app.UseCors("AllowOrigins");
+            
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

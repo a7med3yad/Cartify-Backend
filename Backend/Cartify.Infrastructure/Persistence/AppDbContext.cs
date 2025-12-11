@@ -117,6 +117,13 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
                 .HasForeignKey(d => d.ProductDetailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LkpProductDetailsAttributes_TblProductDetails");
+            entity.Property(e => e.Value)
+                  .IsRequired();
+            entity.Property(e => e.Value)
+                  .HasMaxLength(200);
+
+
+
         });
 
         modelBuilder.Entity<LkpShipementMethod>(entity =>
@@ -313,7 +320,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
             entity.HasKey(e => e.ProductDetailId);
             entity.Property(e => e.ProductDetailId).ValueGeneratedOnAdd();
 
-            entity.Property(e => e.ProductDetailId).ValueGeneratedNever();
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.SerialNumber)
@@ -434,7 +440,6 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
             entity.HasKey(e => e.AttributeId);
             entity.Property(e => e.AttributeId).ValueGeneratedOnAdd();
 
-            entity.Property(e => e.AttributeId).ValueGeneratedNever();
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");

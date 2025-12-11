@@ -245,6 +245,11 @@ namespace Cartify.Infrastructure.Migrations
                     b.Property<int>("ProductDetailId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.HasKey("ProductDetailAttributeId");
 
                     b.HasIndex("AttributeId");
@@ -648,7 +653,10 @@ namespace Cartify.Infrastructure.Migrations
             modelBuilder.Entity("Cartify.Domain.Models.TblProductDetail", b =>
                 {
                     b.Property<int>("ProductDetailId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductDetailId"));
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
@@ -1035,7 +1043,10 @@ namespace Cartify.Infrastructure.Migrations
             modelBuilder.Entity("Cartify.Domain.Models.lkpAttribute", b =>
                 {
                     b.Property<int>("AttributeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttributeId"));
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
