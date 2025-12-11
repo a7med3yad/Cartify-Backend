@@ -14,6 +14,7 @@ namespace Cartify.Domain.Interfaces.Repositories
 		Task<IEnumerable<TResult>> GetWithSelect<TResult>(Expression<Func<T, TResult>> selector,params Expression<Func<T, object>>[] includes); 
 		Task <IEnumerable<T>> Pagination(int page,int pageSize);
 		IQueryable<T> GetAllIncluding2(params Expression<Func<T, object>>[] includeProperties);
+        IQueryable<T> GetAll(bool asNoTracking = true);
 
     }
 }
