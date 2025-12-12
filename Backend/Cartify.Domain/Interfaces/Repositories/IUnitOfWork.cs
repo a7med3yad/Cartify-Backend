@@ -19,10 +19,11 @@ public interface IUnitOfWork : IDisposable
     public IRepository<TblReview> ReviewRepository { get; }
     public IRepository<lkpAttribute> AttributeRepository { get; }
     public IRepository<LkpMeasureUnite> MeasureUnitRepository { get; }
+    public IRepository<TblCart> CartRepository { get; }
     public ICheckoutRepository CheckoutRepository { get; }
     public IOrdertrackingRepository OrdertrackingRepository { get; }
-	public IRepository<Ticket> TicketRepository {  get; }
+    public IRepository<Ticket> TicketRepository {  get; }
 
-	Task<int> SaveChanges();
+    Task<int> SaveChanges();
 
 }
