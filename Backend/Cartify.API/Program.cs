@@ -25,6 +25,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Cartify.Application.Services.Implementation.Product;
 
 namespace Cartify.API
 {
@@ -121,6 +122,9 @@ namespace Cartify.API
             builder.Services.AddScoped<ICheckoutService, CheckoutService>();
             builder.Services.AddScoped<IOrdertrackingservice, OrdertrackingService>();
             builder.Services.AddScoped<ICustomerOrderService, CustomerOrderService>();
+
+            // 🛒 Cart Service
+            builder.Services.AddScoped<ICartService, CartService>();
 
             // 🛍️ Merchant Services
             builder.Services.AddScoped<IMerchantProductServices, MerchantProductServices>();
@@ -225,6 +229,6 @@ namespace Cartify.API
             app.MapGet("/", () => "✅ Cartify API is running successfully!");
 
             app.Run();
-        }
-    }
+         }
+     }
 }
