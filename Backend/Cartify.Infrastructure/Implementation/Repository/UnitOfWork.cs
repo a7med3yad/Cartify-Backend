@@ -46,6 +46,8 @@ namespace Cartify.Infrastructure.Implementation.Services
 		public IRepository<Ticket> TicketRepository { get; }
 		public IRepository<Ticket>WishlistRepository { get; }
 
+        public IRepository<TblCart> CartRepository { get; }
+
         public UnitOfWork(
 			AppDbContext context,
             IRepository<LkpOrderStatue> OrderStatusRepository,
@@ -66,7 +68,8 @@ namespace Cartify.Infrastructure.Implementation.Services
 			ICheckoutRepository checkoutRepository,
 			IOrdertrackingRepository ordertrackingRepository,
 			IRepository<Ticket> TicketRepository,
-            IRepository<Ticket> WishlistRepository
+            IRepository<Ticket> WishlistRepository,
+            IRepository<TblCart> cartRepository
 			)
 		{
 
@@ -88,6 +91,7 @@ namespace Cartify.Infrastructure.Implementation.Services
 			this.OrderStatusRepository = OrderStatusRepository;
 			this.CheckoutRepository = checkoutRepository;
 			this.OrdertrackingRepository = ordertrackingRepository;
+			this.CartRepository = cartRepository;
 			this.TicketRepository=TicketRepository;
 			this.WishlistRepository=WishlistRepository;
         }

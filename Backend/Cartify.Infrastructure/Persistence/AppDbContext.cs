@@ -40,10 +40,19 @@ public partial class AppDbContext : IdentityDbContext<TblUser>
     public virtual DbSet<lkpAttribute> lkpAttributes { get; set; }
     public virtual DbSet<TblUser> TblUsers { get; set; }
 	public virtual DbSet<Ticket> Tickets { get; set; }
+    public virtual DbSet<TblCart> TblCarts { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TblCart>(entity =>
+        {
+            entity.HasKey(e => e.CartId);
+            entity.Property(e => e.CartId).ValueGeneratedOnAdd();
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())").HasColumnType("datetime");
+        });
+
         var UserId = "8e75dee3-74df-43c8-8ded-ca9179be3480";
         var MerchantId = "fdcd17c2-f208-45cc-98d1-e80720cf7896";
         var AdminId = "c9ec0699-f839-4e8d-9bd3-12685ac984ab";
