@@ -478,7 +478,7 @@ This project demonstrates:
 ## 📞 Contact & Links
 
 - **GitHub Repository:** [github.com/nhahub/Cartify](https://github.com/nhahub/NHA-262)
-- **Live Demo:** [Demo](cartify.runasp.net/swagger/index.html)
+- **Live Demo:** [Demo](https://cartify.runasp.net/swagger/index.html)
 
 ---
 
