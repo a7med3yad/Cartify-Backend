@@ -1,360 +1,505 @@
-# 🛒 Cartify — Full-Stack E-Commerce Platform  
+# 🛒 Cartify — Full-Stack Multi-Vendor E-Commerce Platform
 
 [![License](https://img.shields.io/github/license/Taqey/Cartify?style=flat-square)](./LICENSE)
-[![Issues](https://img.shields.io/github/issues/Taqey/Cartify?style=flat-square)](https://github.com/Taqey/Cartify/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/Taqey/Cartify?style=flat-square)](https://github.com/Taqey/Cartify/pulls)
-[![Stars](https://img.shields.io/github/stars/Taqey/Cartify?style=flat-square)](https://github.com/Taqey/Cartify/stargazers)
-[![Forks](https://img.shields.io/github/forks/Taqey/Cartify?style=flat-square)](https://github.com/Taqey/Cartify/network/members)
-[![.NET](https://img.shields.io/badge/Backend-.NET%209-68217A?logo=dotnet&style=flat-square)](#)
-[![DB](https://img.shields.io/badge/Database-SQL%20Server-CC2927?logo=microsoftsqlserver&style=flat-square)](#)
-[![Frontend](https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20JS-333?logo=html5&style=flat-square)](#)
-[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&style=flat-square)](#)
-[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&style=flat-square)](#)
+[![Stars](https://img.shields.io/github/stars/Taqey/Cartify?style=flat-square)](#)
+[![Forks](https://img.shields.io/github/forks/Taqey/Cartify?style=flat-square)](#)
+[![Backend](https://img.shields.io/badge/Backend-.NET%209-512BD4?logo=dotnet&style=flat-square)](#)
+[![Database](https://img.shields.io/badge/Database-SQL%20Server-CC2927?logo=microsoftsqlserver&style=flat-square)](#)
+[![Cloud](https://img.shields.io/badge/Cloud-AWS-FF9900?logo=amazonaws&style=flat-square)](#)
 
 ---
 
 ## 🧩 Overview
 
-**Cartify** is a full-stack **E-Commerce web application** built with **ASP.NET Core** and **Clean Architecture**.  
-It provides a seamless shopping experience for customers, efficient store management tools for merchants, and powerful administrative control for platform admins.  
+**Cartify** is a **production-ready multi-vendor e-commerce platform** built with **ASP.NET Core (.NET 9)** following **Clean Architecture** principles.
 
-The project focuses on:
-- **Scalability**
-- **Maintainability**
-- **Layered separation of concerns**
-- **Reusable and clean code**
+This project demonstrates enterprise-level system design with:
+- Scalable backend architecture
+- Secure AWS cloud deployment
+- Professional database design
+- Complete frontend integration
+- Real-world security practices
+
+**This is not a tutorial project** — it's built with the mindset of a professional software engineer, simulating real production systems.
+
+---
+
+## 🎯 Key Highlights
+
+✅ **Clean Architecture** with strict layer separation  
+✅ **JWT Authentication** with refresh tokens & role-based authorization  
+✅ **Multi-vendor marketplace** (Customers / Merchants / Admins)  
+✅ **AWS Cloud Infrastructure** (EC2, RDS, S3, VPC)  
+✅ **Complete API suite** with RESTful design  
+✅ **Frontend integration** with dynamic rendering  
+✅ **Production-grade security** (Bastion host, private subnets, Security Group and Network ACLS)
 
 ---
 
 ## ✨ Features
 
-### 👤 Customer Portal
-- 🏠 **Home Page:** Browse latest products, categories, and deals.  
-- 🗂 **Categories:** Filter and sort products dynamically.  
-- 📦 **Product Details:** View specifications, reviews, and ratings.  
-- 🛒 **Cart Management:** Add, remove, and update cart items; apply coupons.  
-- 💳 **Checkout:** Secure payment (Cash on Delivery, Card, Wallet).  
-- 🚚 **Order Tracking:** View live order status and history.  
-- 💖 **Wishlist:** Save products for future purchases.  
-- ⚙️ **Profile Settings:** Manage personal data, addresses, and payment info.  
-- 🔔 **Notifications:** Stay updated with offers and order updates.  
-- 💬 **Support Center:** FAQs, support tickets, and live chat integration.  
+### 👤 Customer Features
+- Browse products with advanced filtering
+- View product variants (storage, size, attributes)
+- Shopping cart & checkout flow
+- Order history & real-time tracking
+- Profile & address management
+- Wishlist functionality
 
-### 🏬 Merchant Dashboard
-- 🏢 **Store Registration & Profile Management.**  
-- 📊 **Dashboard:** Sales, orders, and inventory overview with charts.  
-- 🛍️ **Product Management:** Add, edit, and delete products and variants.  
-- 📦 **Order Management:** Manage customer orders efficiently.  
-- 💹 **Analytics:** Insights into top-selling products and revenue.  
+### 🏬 Merchant Features
+- Store creation & management
+- Product catalog with variants
+- Inventory control & pricing
+- Order management & fulfillment
+- Sales analytics dashboard
 
-### 🧑‍💻 Admin Panel
-- 🖥️ **Global Dashboard:** Monitor users, merchants, and overall sales.  
-- 👥 **User & Store Management:** Approve, suspend, or delete accounts.  
-- 📦 **Product & Order Control:** Manage platform-wide listings and transactions.  
-- 🗂 **Category Management:** Add and organize categories/subcategories.  
-- 📑 **Reports & Analytics:** Export CSV/Excel reports and apply filters.  
-- ⚙️ **Settings:** Configure payments, shipping, and policy preferences.  
+### 🧑‍💻 Admin Features
+- Platform-wide oversight
+- User & merchant moderation
+- Category & product approval
+- System reports & analytics
+- Support ticket management
 
 ---
 
-## 🧱 Architecture Overview
+## 🧱 System Architecture
 
-Cartify follows **Clean Architecture** and **SOLID principles**, divided into four main layers:
+Cartify follows **Clean Architecture** with clear separation of concerns:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Presentation Layer                      │
-│              (API Controllers, Middlewares)                 │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    Application Layer                        │
-│         (Business Logic, DTOs, Services, CQRS)              │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                      Domain Layer                           │
-│         (Entities, Value Objects, Domain Logic)             │
-└─────────────────────────────────────────────────────────────┘
-                              ↑
-┌─────────────────────────────────────────────────────────────┐
-│                  Infrastructure Layer                       │
-│     (EF Core, Repositories, External Services, Data)        │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│           API Layer (Controllers)           │
+│         ↓ HTTP Requests & Responses         │
+└─────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────┐
+│    Application Layer (Business Logic)       │
+│   Services, DTOs, Use Cases, Interfaces     │
+└─────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────┐
+│      Domain Layer (Core Business Rules)     │
+│        Entities, Value Objects, Rules       │
+└─────────────────────────────────────────────┘
+                      ↑
+┌─────────────────────────────────────────────┐
+│   Infrastructure Layer (Data & External)    │
+│   EF Core, Repositories, AWS S3, Database   │
+└─────────────────────────────────────────────┘
 ```
 
-### Key Design Patterns
-- **Repository Pattern**  
-- **Unit of Work**  
-- **DTOs & AutoMapper**  
-- **Dependency Injection (DI)**  
-- **Paging, Filtering, Sorting** built into repository queries.  
+### Design Patterns & Principles
+- **Repository Pattern** for data access abstraction
+- **Unit of Work** for transaction management
+- **Dependency Injection** throughout all layers
+- **DTOs & AutoMapper** for clean data transfer
+- **SOLID Principles** enforced across codebase
 
 ---
 
-## 🛠️ Tech Stack
+## ☁️ AWS Cloud Architecture
 
-### 🖥️ Frontend
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)
+### Infrastructure Components
 
-### ⚙️ Backend
-![.NET](https://img.shields.io/badge/.NET%209-512BD4?logo=dotnet&logoColor=white)
-![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
-![EntityFramework](https://img.shields.io/badge/Entity%20Framework-68217A?logo=ef&logoColor=white)
-![SQLServer](https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white)
-![AutoMapper](https://img.shields.io/badge/AutoMapper-ff6600?style=flat-square)
-![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
+| Service | Purpose | Configuration |
+|---------|---------|---------------|
+| **EC2** | API Hosting | Public subnet, acts as Bastion/Entry Point |
+| **RDS** | SQL Server Database | Private subnet, no direct internet access |
+| **S3** | Image Storage | Pre-signed URLs for secure uploads |
+| **VPC** | Network Isolation | Custom VPC with public/private subnets |
+| **Subnets** | Network Segmentation | Public (EC2) & Private (RDS) subnet separation |
+| **NACLs** | Network Layer Security | Stateless firewall rules at subnet level |
+| **Security Groups** | Instance Firewalls | Stateful firewall rules, least-privilege access |
 
-### 🧰 DevOps & Tools
-![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black)
-![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91?logo=visualstudio&logoColor=white)
+### Security Architecture
+- ✅ **Multi-layer subnet design** — Public subnet for web tier, private for database
+- ✅ **Network ACLs (NACLs)** — Additional subnet-level security layer
+- ✅ **Private subnet isolation** — Database has no internet access
+- ✅ **Bastion host access** — SSH only through controlled entry point
+- ✅ **Security group hardening** — Minimal port exposure with stateful rules
+- ✅ **Internet Gateway** — Controlled public internet access for EC2
+
+This setup simulates **real enterprise cloud architecture**, not basic student deployments.
 
 ---
 
-## 📂 Project Structure
+## 🏗️ Architecture Diagrams
 
-```bash
-Cartify/
-├── frontend/                 # HTML/CSS/JS files
-├── backend/
-│   ├── Cartify.API/          # Presentation layer (Controllers, Middlewares)
-│   ├── Cartify.Application/  # Business logic, DTOs, Services
-│   ├── Cartify.Domain/       # Entities, Value Objects, Enums
-│   ├── Cartify.Infrastructure/# EF Core, Repositories, Persistence
-│   └── Cartify.sln
-├── docs/                     # ERD, architecture diagrams
-├── scripts/                  # Database migrations, deployment scripts
-└── README.md
+### ☁️ AWS Infrastructure
+Complete AWS setup showing VPC design, subnet configuration, and service connectivity.
+
+![AWS Architecture](./Project%20Architecture/Architecture.png)
+
+### 🗄️ Database Schema (ERD)
+Full entity-relationship diagram with all tables, relationships, and constraints.
+
+![Database ERD](./Project%20Architecture/ERD.jpg)
+
+---
+
+## 🗄️ Database Design
+
+### Core Entities & Relationships
+
+**User Management**
+- `User` → Customers, Merchants, Admins
+- `RefreshToken` → JWT token rotation
+- `Address` → User delivery addresses
+
+**Product Catalog**
+- `Category` → `SubCategory` (1:N)
+- `Product` → `ProductDetail` (1:N variants)
+- `ProductDetail` → `Inventory` (1:1)
+- `Product` → `Attributes` & `MeasureUnits`
+
+**Store & Orders**
+- `Store` → `Product` (1:N)
+- `User` → `Order` (1:N)
+- `Order` → `OrderItem` (1:N)
+- `Product` → `Review` (1:N)
+
+**Features**
+- `Cart` & `Wishlist` per user
+- `Coupon` system
+- `HelpTicket` for support
+
+### Database Best Practices
+- Proper indexing on foreign keys
+- Cascade delete rules configured
+- Validation at entity level
+- Optimized query performance
+
+---
+
+## 🎨 Frontend Integration
+
+### Technology Stack
+- **HTML5** for semantic structure
+- **CSS3** for responsive design
+- **Vanilla JavaScript** for full control
+
+### Key Features
+- RESTful API communication
+- JWT token management
+- Dynamic content rendering
+- Secure S3 image uploads via pre-signed URLs
+- Real-time order tracking
+- Responsive design (mobile-first)
+
+### API Integration Pattern
+```javascript
+// Centralized API client with authentication
+const API = {
+    baseURL: 'https://api.cartify.com',
+    
+    async request(method, endpoint, data) {
+        const token = localStorage.getItem('jwt_token');
+        const response = await fetch(`${this.baseURL}${endpoint}`, {
+            method,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: data ? JSON.stringify(data) : null
+        });
+        return response.json();
+    }
+};
 ```
-
----
-
-## 🗄️ Domain Model
-
-**Core Entities:**
-- **User** — roles: `Client`, `StoreOwner`, `Admin`
-- **Store** — linked to `User`
-- **Category** & **SubCategory**
-- **Product** — linked to multiple `ProductDetails`
-- **ProductDetail** — represents a product variant *(e.g., color, size, storage)*
-- **Inventory** — holds stock quantity and price per variant
-- **Order** & **OrderItem**
-- **Review**, **Rating**, **Coupon**, **RefreshToken**
-
-**Entity Relationships:**
-- `Category` → `SubCategory` — **One-to-Many**
-- `Product` → `ProductDetail` — **One-to-Many**
-- `ProductDetail` → `Inventory` — **One-to-One**
-- `User` → `Orders` — **One-to-Many**
-- `Order` → `OrderItems` — **One-to-Many**
 
 ---
 
 ## 🔐 Authentication & Security
 
-- **JWT-based Authentication**
-  - Includes both **Access** and **Refresh tokens**
-  - Refresh tokens are stored per user using the *owned entity* pattern
+### JWT Implementation
+- **Access Tokens** (short-lived, 15 minutes)
+- **Refresh Tokens** (long-lived, stored in database)
+- **Token rotation** on refresh
+- **Role-based claims** (Customer, Merchant, Admin)
 
-- **Role-based Authorization**
-  - Supports roles: `Client`, `Merchant`, and `Admin`
-  - Access control applied via **policies and attributes**
-
-- **Best Practices Implemented**
-  - ✅ HTTPS enforced  
-  - ✅ Strong password policy  
-  - ✅ Token expiration with refresh rotation  
-  - ✅ Centralized exception handling middleware  
-  - ✅ Logging and auditing for sensitive actions  
-
----
-
-## 📡 Example API Endpoints
-
-| **Type** | **Endpoint** | **Description** |
-|-----------|--------------|-----------------|
-| `POST` | `/api/auth/register` | Register new user |
-| `POST` | `/api/auth/login` | Login & retrieve JWT tokens |
-| `POST` | `/api/auth/refresh` | Refresh expired access token |
-| `GET` | `/api/products` | List all products |
-| `GET` | `/api/products/{id}` | Get detailed product info |
-| `POST` | `/api/orders` | Place a new order |
-| `GET` | `/api/orders` | Retrieve all user orders |
-| `GET` | `/api/merchant/dashboard` | Get merchant analytics data |
-| `GET` | `/api/admin/dashboard` | Get global platform statistics |
+### Security Features
+- Password hashing with industry standards
+- SQL injection prevention via parameterized queries
+- XSS protection with input sanitization
+- CORS configuration for frontend
+- HTTPS enforcement in production
+- Rate limiting on sensitive endpoints
 
 ---
 
-## ⚙️ Setup & Run
+## 🚀 API Documentation
 
-### 🧩 Backend Setup
+### Core Endpoints
 
-```bash
-git clone https://github.com/Taqey/Cartify.git
-cd Cartify/backend
+#### Authentication
+```
+POST   /api/auth/register          - User registration
+POST   /api/auth/login             - User login
+POST   /api/auth/refresh           - Refresh access token
+POST   /api/auth/forgot-password   - Password reset request
 ```
 
-### 1️⃣ Configure Database
+#### Products
+```
+GET    /api/products               - List all products (paginated)
+GET    /api/products/{id}          - Get product details
+POST   /api/products               - Create product (Merchant)
+PUT    /api/products/{id}          - Update product (Merchant)
+DELETE /api/products/{id}          - Delete product (Merchant)
+GET    /api/products/{id}/details  - Get product variants
+```
 
-Create or edit `appsettings.json` in **Cartify.API**:
+#### Orders
+```
+GET    /api/orders                 - User's order history
+GET    /api/orders/{id}            - Order details
+POST   /api/orders                 - Place new order
+GET    /api/orders/{id}/track      - Track order status
+```
 
-```json
+#### Merchant Dashboard
+```
+GET    /api/merchant/dashboard     - Sales analytics
+GET    /api/merchant/orders        - Merchant orders
+PUT    /api/merchant/orders/{id}   - Update order status
+```
+
+#### Admin
+```
+GET    /api/admin/dashboard        - Platform overview
+GET    /api/admin/users            - User management
+PUT    /api/admin/products/{id}    - Moderate products
+GET    /api/admin/reports          - System reports
+```
+
+### Response Standards
+- **Consistent JSON structure**
+- **Proper HTTP status codes** (200, 201, 400, 401, 404, 500)
+- **Error messages** in standardized format
+- **Pagination** for list endpoints
+
+---
+
+## 👥 Team Contributions
+
+### 👑 Ahmed Ibrahim — Team Lead / Backend & Cloud Architect
+- Designed complete system architecture and database schema
+- Implemented all core backend modules (Products, Orders, Inventory, Customers)
+- Enforced Clean Architecture across all layers
+- Integrated AWS S3 with pre-signed URLs for secure image handling
+- Led AWS deployment (EC2, RDS, S3, VPC, Transit Gateway)
+- Conducted code reviews, debugging, and team integration
+
+### ⚙️ Taqey Eldeen — Backend Developer
+- Implemented JWT + Refresh Token authentication system
+- Built role-based authorization (Customer, Merchant, Admin)
+- Created authentication endpoints (Login, Register, Password Reset)
+- Contributed to Clean Architecture structure and Repository Pattern
+
+### 🖥️ Amr Khaled — Frontend Developer
+- Built product catalog pages (Categories, Products, Product Details)
+- Implemented dynamic data relations and component integration
+- Ensured smooth frontend-backend API communication
+
+### 🎨 Mark Osama Atia — Frontend Developer
+- Implemented complete checkout flow and order confirmation
+- Built customer profile and account management pages
+- Developed order tracking with real-time status updates
+- Ensured responsive design across all devices
+
+### 🛠️ Mohamed Raouf — Backend Developer
+- Implemented admin controller and business logic
+- Created admin DTOs and validation rules
+- Ensured API consistency across administrative features
+
+### 🧪 Mostafa Nasr — Backend / QA
+- Implemented cart and wishlist features
+- Built order tracking, cart, and wishlist pages
+- Assisted in testing, validation, and system stability
+
+---
+
+## 🗺️ Project Roadmap
+
+### ✅ Phase 1 — Foundation (Completed)
+- Clean Architecture implementation
+- Database design & ERD
+- JWT authentication & authorization
+- Core API endpoints (Products, Orders, Categories)
+- Basic frontend UI
+- AWS infrastructure setup (EC2, RDS, S3, VPC)
+
+### ✅ Phase 2 — Core Features (Completed)
+- Product variants & attributes system
+- Inventory management
+- Shopping cart & checkout flow
+- Merchant dashboard
+- Secure S3 image uploads
+- Order tracking system
+
+### 🔄 Phase 3 — Advanced Features (In Progress)
+- Payment gateway integration (Stripe/PayPal)
+- Email notifications & order updates
+- Advanced merchant analytics
+- Admin reporting & data exports
+- Search optimization
+
+### 🚀 Phase 4 — Production (Planned)
+- CI/CD pipeline automation
+- Docker containerization
+- Load balancing & auto-scaling
+- Monitoring & logging (CloudWatch)
+- Custom domain & SSL certificates
+- Performance optimization
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Framework:** ASP.NET Core 9
+- **Language:** C# 12
+- **ORM:** Entity Framework Core
+- **Database:** SQL Server
+- **Authentication:** JWT with Refresh Tokens
+- **Cloud Storage:** AWS S3
+
+### Frontend
+- **Markup:** HTML5
+- **Styling:** CSS3
+- **Logic:** Vanilla JavaScript (ES6+)
+- **API Communication:** Fetch API
+
+### Cloud & Infrastructure
+- **Hosting:** AWS EC2
+- **Database:** AWS RDS (SQL Server)
+- **Storage:** AWS S3
+- **Networking:** AWS VPC
+- **Security:** IAM, Security Groups
+
+### Tools & Practices
+- **Version Control:** Git & GitHub
+- **API Testing:** Postman
+- **Architecture:** Clean Architecture
+- **Design Patterns:** Repository, Unit of Work, Dependency Injection
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+- .NET 9 SDK
+- SQL Server or AWS RDS instance
+- AWS account (for S3 and deployment)
+- Node.js (optional, for frontend tooling)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/nhahub/NHA-262.git
+cd Cartify
+```
+
+2. **Configure database**
+```bash
+cd backend
+dotnet ef database update
+```
+
+3. **Set up environment variables**
+```bash
+# appsettings.json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=CartifyDB;Trusted_Connection=True;TrustServerCertificate=True"
+    "DefaultConnection": "your-connection-string"
   },
-  "Jwt": {
-    "Key": "your-secret-key-min-32-characters-long",
+  "JWT": {
+    "SecretKey": "your-secret-key",
     "Issuer": "Cartify",
-    "Audience": "Cartify.Clients",
-    "AccessTokenMinutes": 15,
-    "RefreshTokenDays": 7
+    "Audience": "CartifyUsers"
+  },
+  "AWS": {
+    "BucketName": "your-s3-bucket",
+    "Region": "us-east-1"
   }
 }
 ```
 
-### 2️⃣ Apply Migrations
-
+4. **Run the application**
 ```bash
-dotnet ef database update --project Cartify.Infrastructure --startup-project Cartify.API
+dotnet run
 ```
 
-### 3️⃣ Run the API
-
+5. **Open frontend**
 ```bash
-dotnet run --project Cartify.API
-```
-
-Navigate to `https://localhost:5001/swagger` to explore the API.
-
----
-
-### 💻 Frontend Setup
-
-```bash
-cd frontend
-# Using serve (simple static server)
-npm install -g serve
-serve .
-```
-
-Or open `index.html` directly in your browser.
-
----
-
-### 🐳 Docker Deployment
-
-**Dockerfile:**
-
-```dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
-COPY backend/ .
-RUN dotnet restore Cartify.sln
-RUN dotnet publish Cartify.API/Cartify.API.csproj -c Release -o /app/publish
-
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY --from=build /app/publish .
-EXPOSE 8080
-ENTRYPOINT ["dotnet", "Cartify.API.dll"]
-```
-
-**Build & Run:**
-
-```bash
-docker build -t cartify-api .
-docker run -p 8080:8080 cartify-api
+cd ../frontend
+# Open index.html in browser or use live server
 ```
 
 ---
 
-## 📊 Development Status
+## 📊 Project Statistics
 
-| Area                    | Status | Details                                  |
-| ----------------------- | ------ | ---------------------------------------- |
-| **Frontend UI**         | ✅      | Home, Cart, Checkout, Profile pages      |
-| **Backend Core**        | ✅      | Clean architecture implemented           |
-| **Authentication**      | ✅      | JWT + Refresh tokens + Role-based access |
-| **Product Module**      | ⏳     | CRUD + pagination + filtering            |
-| **Inventory & Pricing** | ⏳     | Linked to product variants               |
-| **Order System**        | ⏳      | Checkout flow and order tracking         |
-| **Merchant Dashboard**  | ⏳      | Sales & product analytics                |
-| **Admin Panel**         | ⏳    | Global analytics and management tools    |
-| **Deployment (CI/CD)**  | ⏳      | In progress                              |
+- **Total Lines of Code:** 20,000+
+- **API Endpoints:** 40+
+- **Database Tables:** 20+
+- **Cloud Services:** 6 AWS services
+- **Team Members:** 6 developers
+- **Development Time:** 3+ months
 
 ---
 
-## 🧪 Testing
+## 📝 Code Quality Standards
 
-- **Unit Tests:** Application layer with mock repositories.
-- **Integration Tests:** API endpoints using in-memory/SQLite database.
-- **Load Testing:** Planned via k6 / JMeter.
-
----
-
-## 🚀 CI/CD
-
-- **GitHub Actions**
-- Automated build & test pipelines
-- Docker image publishing on push to main
-- Future deployment to AWS / Azure Container Apps
+- Clean Architecture enforced across all layers
+- SOLID principles followed
+- Comprehensive input validation
+- Proper error handling & logging
+- Consistent naming conventions
+- Code reviews before merging
+- Git branching strategy (feature branches)
 
 ---
 
-## 🗺 Roadmap
+## 🎓 Learning Outcomes
 
-- [x] UI/UX Design & Frontend
-- [x] Core API Architecture
-- [x] Authentication & Authorization
-- [x] Product & Inventory System
-- [x] Orders & Checkout
-- [ ] Payment Gateway Integration
-- [ ] Notifications (Email, Push)
-- [ ] Advanced Analytics Dashboard
-- [ ] Docker Compose (API + DB + Frontend)
-- [ ] Cloud Deployment (AWS/Azure)
+This project demonstrates:
+- ✅ Real-world system design thinking
+- ✅ Secure authentication & authorization
+- ✅ Cloud infrastructure knowledge (AWS)
+- ✅ Database design & optimization
+- ✅ RESTful API best practices
+- ✅ Team collaboration & Git workflows
+- ✅ Production-ready security practices
 
 ---
 
-## 👥 Team
+## 📞 Contact & Links
 
-| Name              | Role                          | GitHub                                     |
-| ----------------- | ----------------------------- | ------------------------------------------ |
-| **Ahmed Ayad**    | Backend Developer / Architect | [@a7med3yad](https://github.com/a7med3yad) |
-| **Taqey Eldeen**  | Full Stack Developer          | [@Taqey](https://github.com/Taqey)         |
-| **Mark Osama**    | Frontend Developer            | [@MarkOsama](#)                            |
-| **Mohamed Raouf** | Backend Developer             | [@MohamedRaouf](#)                         |
-| **Mustafa Nasr**  | DevOps / QA                   | [@MustafaNasr](#)                          |
+- **GitHub Repository:** [github.com/nhahub/Cartify](https://github.com/nhahub/NHA-262)
+- **Live Demo:** [Demo](cartify.runasp.net/swagger/index.html)
 
 ---
 
-## 📄 License
+## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/Taqey/Cartify/issues).
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📞 Contact
+## 🎯 Final Note
 
-For questions or support, please open an issue or contact the team.
+Cartify is **not a tutorial clone** — it's a **production-style system** built to demonstrate:
 
-**Happy Coding! 🚀**
+- Professional system design
+- Enterprise-level architecture
+- Cloud infrastructure expertise
+- Secure coding practices
+- Real team collaboration
+
+**Built with engineering discipline, not just code tutorials** 🚀
+
+---
+
+<p align="center">Made with 💙 by the Cartify Team</p>

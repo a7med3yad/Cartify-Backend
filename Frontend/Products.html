@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartify | Products</title>
+  <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="CSS/merchant.css">
+</head>
+<body data-page="products">
+  <div class="container-fluid merchant-shell">
+    <div class="row flex-nowrap">
+      <aside class="col-12 col-md-3 col-lg-2 sidebar">
+        <div class="sidebar-header">
+          <h5>Cartify Admin</h5>
+        </div>
+        <nav class="nav flex-column">
+          <a class="nav-link" href="dashboard.html">Dashboard</a>
+          <a class="nav-link active" href="products.html">Products</a>
+          <a class="nav-link" href="product-details.html">Product Details</a>
+          <a class="nav-link" href="Orders.html">Orders</a>
+          <a class="nav-link" href="Inventory.html">Inventory</a>
+          <a class="nav-link" href="Category.html">Category</a>
+          <a class="nav-link" href="Sub-Category.html">Subcategory</a>
+          <a class="nav-link" href="User.html">Customer</a>
+          <a class="nav-link" href="AttributeMeasure.html">Attributes &amp; Measures</a>
+        </nav>
+      </aside>
+      <main class="col py-4 px-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h2 class="mb-0">Products</h2>
+            <small class="text-muted">Manage your products</small>
+          </div>
+          <a class="btn btn-success" href="add-product.html">Add Product</a>
+        </div>
+
+        <div id="pageStatus" class="status-message status-info" role="alert" style="display:none;"></div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row g-3 align-items-center">
+              <div class="col-md-4">
+                <label class="form-label">Search</label>
+                <input type="text" id="searchProducts" class="form-control" placeholder="Search by name">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Page</label>
+                <input type="number" id="pageNumber" class="form-control" value="1" min="1">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Page Size</label>
+                <select id="pageSize" class="form-select">
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped align-middle">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Subcategory</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                  <tr><td colspan="7" class="text-center">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+              <small id="paginationInfo" class="text-muted"></small>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="JS/jquery.js"></script>
+  <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="JS/merchant-crud.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+  <link rel="shortcut icon" href="Icons/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="CSS/Products.css">
+  <link rel="stylesheet" href="CSS/navigation.css">
+</head>
+
+<body>
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="PageIcon">
+      <a href="index.html"><img src="Icons/Untitled-ن2.png" alt="Logo"></a>
+    </div>
+    <div class="middle">
+      <form class="d-flex search-form" role="search" style="width: 100%; max-width: 400px;">
+        <input type="text" name="search" id="searchBar" placeholder="Search products..." aria-label="Search">
+        <button class="btn gradient-btn" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="Login">
+      <a href="cartpage.html" class="cart-btn">
+        <img src="Icons/cart.png" alt="Cart" id="cart">
+        <span>Go to Cart</span>
+      </a>
+      <a href="wishlist.html" class="wishlist-btn">
+        <img src="Icons/heart.png" alt="Wishlist">
+        <span>Wishlist</span>
+      </a>
+      <button type="button" class="menu-toggle-btn" id="menuToggle" aria-label="Open navigation menu">
+        <span class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+    <div class="main-content">
+      <!-- Controls -->
+      <div class="controls">
+        <select id="sort">
+          <option value="">Sort By</option>
+          <option value="price">Price</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="cards-container" id="productsContainer"></div>
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </main>
+
+  <!-- Navigation Menu -->
+  <section class="navigation-section">
+    <div class="container">
+      <div class="nav-menu" id="navMenu">
+        <div class="nav-menu-header">
+          <h3>All Pages</h3>
+          <button class="menu-close-btn" id="menuClose" aria-label="Close menu">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        
+        <div class="nav-menu-content">
+          <!-- User Pages -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">User Pages</h4>
+            <div class="nav-buttons">
+              <a href="login.html" class="nav-btn">Login</a>
+              <a href="register.html" class="nav-btn">Register</a>
+              <a href="profile.html" class="nav-btn">Profile</a>
+            </div>
+          </div>
+
+          <!-- Shopping Pages -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Shopping</h4>
+            <div class="nav-buttons">
+              <a href="Products.html" class="nav-btn">Products</a>
+              <a href="ProductsDetails.html" class="nav-btn">Product Details</a>
+              <a href="Category.html" class="nav-btn">Categories</a>
+              <a href="Sub-Category.html" class="nav-btn">Sub Categories</a>
+            </div>
+          </div>
+
+          <!-- Cart & Orders -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Cart & Orders</h4>
+            <div class="nav-buttons">
+              <a href="cartpage.html" class="nav-btn">Cart</a>
+              <a href="Checkout.html" class="nav-btn">Checkout</a>
+              <a href="ordertracking.html" class="nav-btn">Order Tracking</a>
+            </div>
+          </div>
+
+          <!-- Wishlist & Notifications -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Account</h4>
+            <div class="nav-buttons">
+              <a href="wishlist.html" class="nav-btn">Wishlist</a>
+            </div>
+          </div>
+
+          <!-- Support & Help -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Support</h4>
+            <div class="nav-buttons">
+              <a href="help_page.html" class="nav-btn">Help & Support</a>
+            </div>
+          </div>
+
+          <!-- Merchant Pages -->
+          <div class="nav-menu-group">
+            <h4 class="nav-menu-group-title">Merchant</h4>
+            <div class="nav-buttons">
+              <a href="merchant-signup.html" class="nav-btn">Merchant Signup</a>
+              <a href="merchhome.html" class="nav-btn">Merchant Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+
+  <script src="JS/Products.js"></script>
+  <script src="JS/menu.js"></script>
+</body>
+
+</html>
